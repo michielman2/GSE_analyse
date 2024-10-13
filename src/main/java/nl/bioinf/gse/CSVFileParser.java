@@ -17,11 +17,13 @@ public class CSVFileParser {
     public List<GeneRecord> readDEGs(String filePath) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
-        try (CSVParser parser = new CSVParser(new FileReader(filePath), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+        // Specify that the CSV file has no header
+        try (CSVParser parser = new CSVParser(new FileReader(filePath), CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim())) {
             for (CSVRecord record : parser) {
-                String geneSymbol = record.get("Gene symbol");
-                double logFoldChange = Double.parseDouble(record.get("log2 fold change"));
-                double adjustedPValue = Double.parseDouble(record.get("adjusted p-value"));
+                // Access the data by index
+                String geneSymbol = record.get(0);  // Assuming the first column is the gene symbol
+                double logFoldChange = Double.parseDouble(record.get(1));  // Assuming the second column is log2 fold change
+                double adjustedPValue = Double.parseDouble(record.get(2));  // Assuming the third column is adjusted p-value
 
                 GeneRecord geneRecord = new GeneRecord(geneSymbol, logFoldChange, adjustedPValue);
                 geneRecords.add(geneRecord);
@@ -33,26 +35,25 @@ public class CSVFileParser {
 
     // Method to parse pathways (pathways.csv) and aggregate data by KEGG Pathway ID
     public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath) throws IOException {
-        // Map to hold pathway information, with the KEGG Pathway ID as the key
         Map<String, PathwayRecord> pathwayMap = new HashMap<>();
 
-        // First read the KEGG pathways descriptions (hsa_pathways.csv)
+        // Read the KEGG pathways descriptions (hsa_pathways.csv)
         Map<String, String> pathwayDescriptions = new HashMap<>();
-        try (CSVParser parser = new CSVParser(new FileReader(hsaPathwaysFilePath), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+        try (CSVParser parser = new CSVParser(new FileReader(hsaPathwaysFilePath), CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim())) {
             for (CSVRecord record : parser) {
-                String pathwayID = record.get("KEGG pathway ID");
-                String description = record.get("Description");
+                String pathwayID = record.get(0);  // Assuming the first column is KEGG pathway ID
+                String description = record.get(1); // Assuming the second column is Description
                 pathwayDescriptions.put(pathwayID, description);
             }
         }
 
         // Now read the pathways data (pathways.csv)
-        try (CSVParser parser = new CSVParser(new FileReader(pathwaysFilePath), CSVFormat.DEFAULT.withFirstRecordAsHeader())) {
+        try (CSVParser parser = new CSVParser(new FileReader(pathwaysFilePath), CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim())) {
             for (CSVRecord record : parser) {
-                String pathwayID = record.get("KEGG pathway ID");
-                String entrezGeneID = record.get("Entrez gene ID");
-                String geneSymbol = record.get("Gene symbol");
-                String ensemblGeneID = record.get("Ensembl gene ID");
+                String pathwayID = record.get(0);  // Assuming the first column is KEGG pathway ID
+                String entrezGeneID = record.get(1); // Assuming the second column is Entrez gene ID
+                String geneSymbol = record.get(2);    // Assuming the third column is Gene symbol
+                String ensemblGeneID = record.get(3); // Assuming the fourth column is Ensembl gene ID
 
                 // Get the pathway description
                 String description = pathwayDescriptions.getOrDefault(pathwayID, "Unknown Pathway");
@@ -82,4 +83,3 @@ public class CSVFileParser {
         return pathwayMap;
     }
 }
-

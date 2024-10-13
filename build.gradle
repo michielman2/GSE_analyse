@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'  // Apply the application plugin
 }
 
 group 'nl.bioinf.gse'
@@ -11,9 +12,16 @@ repositories {
 
 dependencies {
     implementation 'org.apache.commons:commons-csv:1.10.0'
-    // other dependencies
+    implementation 'info.picocli:picocli:4.6.3'
+    // Add other dependencies if needed
+}
+sourceCompatibility = '17'
+targetCompatibility = '17'
+application {
+    mainClassName = 'nl.bioinf.gse.Main'  // Specify the main class
 }
 
-test {
-    useJUnitPlatform()
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
+
