@@ -29,6 +29,12 @@ public class Main {
             writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
             int uniqueGeneCount = CreateTable.countUniqueGenes(pathwayRecords);
             System.out.println("Number of unique genes in pathways.csv: " + uniqueGeneCount);
+            int degCount = CreateTable.totalDEGS(geneRecords);
+            System.out.println("Number of DEGs in degs.csv: " + degCount);
+            int pathwayGenes = CreateTable.genesInPathway(pathwayRecords, "hsa04330");
+            System.out.println("Number of genes in given pathway: " + pathwayGenes);
+            int degsInPathway= CreateTable.degsInPathway(pathwayRecords,geneRecords,"hsa04330");
+            System.out.println("degs in given pathway: " + degsInPathway);
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
