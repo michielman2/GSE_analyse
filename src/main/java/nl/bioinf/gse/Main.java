@@ -12,9 +12,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String degsFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\degs.csv";
-        String pathwaysFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\pathways.csv";
-        String hsaPathwaysFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\hsa_pathways.csv";
+        String degsFilePath = "example_data/degs.csv";
+        String pathwaysFilePath = "example_data/pathways.csv";
+        String hsaPathwaysFilePath = "example_data/hsa_pathways.csv";
 
 
         CSVFileParser csvFileParser = new CSVFileParser();
@@ -27,7 +27,8 @@ public class Main {
 
             Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
             writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
-
+            int uniqueGeneCount = CreateTable.countUniqueGenes(pathwayRecords);
+            System.out.println("Number of unique genes in pathways.csv: " + uniqueGeneCount);
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
