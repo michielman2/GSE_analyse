@@ -11,20 +11,20 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        // Define the file paths for your CSV files
+
         String degsFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\degs.csv";
         String pathwaysFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\pathways.csv";
         String hsaPathwaysFilePath = "C:\\Users\\roord\\OneDrive\\Documenten\\School\\gsea\\hsa_pathways.csv";
 
-        // Create an instance of CSVFileParser
+
         CSVFileParser csvFileParser = new CSVFileParser();
 
         try {
-            // Parse the DEGs file and get a list of GeneRecord objects
+
             List<GeneRecord> geneRecords = csvFileParser.readDEGs(degsFilePath);
             writeGeneRecordsToCSV(geneRecords, "gene_records_output.csv");
 
-            // Parse the pathways file and hsa_pathways file, then aggregate by KEGG Pathway ID
+
             Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
             writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
 
