@@ -51,14 +51,23 @@ public class CreateTable {
         return degCount;
     }
 
-    public static int calculateRest(int degsInPathway, int genesInPathway, int totalDEGs, int totalGenes) {
-        int degsNotInPathway = degsInPathway - totalDEGs;
+    public static String tablebuilder(int degsInPathway, int genesInPathway, int totalDEGs, int totalGenes) {
+        int degsNotInPathway = totalDEGs - degsInPathway;
         int nonDEGsInPathway = genesInPathway - degsInPathway;
         int nonDEGGenes = totalGenes - totalDEGs;
         int genesNotInPathway = totalGenes - genesInPathway;
         int nonDEGsNotInPathway = nonDEGGenes - nonDEGsInPathway;
 
-        return new AbstractMap.SimpleEntry<Integer, Integer>(degsNotInPathway,nonDEGsInPathway,nonDEGGenes)
+        String line1 = "  |  D  |  D* | Sum\n";
+        String line2 = "--------------------\n";
+        String line3 = String.format("C |%5d|%5d|%5d\n", degsInPathway, nonDEGsInPathway, genesInPathway);
+        String line4 = String.format("C |%5d|%5d|%5d\n", degsNotInPathway, nonDEGsNotInPathway, genesNotInPathway);
+        String line5 = String.format("C |%5d|%5d|%5d\n", totalDEGs, nonDEGGenes, totalGenes);
+        String line6 = "\nC: in pathway, C*: not in pathway\n";
+        String line7 = "D: DEG (FDR <= 0.01), D*: non DEG";
 
+        String table = line1 + line2 + line3 + line4 + line5 + line6 + line7;
+
+        return table;
     }
 }
