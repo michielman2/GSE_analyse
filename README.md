@@ -56,12 +56,14 @@ Hsa pathway csv, this file contain the description of the pathways <br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
 For example, when giving the hsa04330 pathway as input, the output should be like this:<br>
 
-Notch signaling pathway (hsa04330)<br>
- | D    | D*   | Sum<br>
- --------------------<br>
- C    | 18   | 44   | 62<br>
- C*   | 2886 | 923  | 3809<br>
- Sum  | 2904 | 18926 | 21830<br>
+```
+Notch signaling pathway (hsa04330)
+ | D    | D*   | Sum
+ --------------------
+ C    | 18   | 44   | 62
+ C*   | 2886 | 923  | 3809
+ Sum  | 2904 | 18926 | 21830
+```
 
 ### Future implementations<br>
 - Adding the math and statistics steps to our programme.<br>
