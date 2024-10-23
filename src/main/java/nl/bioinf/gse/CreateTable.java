@@ -58,11 +58,11 @@ public class CreateTable {
         int genesNotInPathway = totalGenes - genesInPathway;
         int nonDEGsNotInPathway = nonDEGGenes - nonDEGsInPathway;
 
-        String line1 = "  |  D  |  D* | Sum\n";
+        String line1 = "   |  D  |  D* | Sum\n";
         String line2 = "--------------------\n";
-        String line3 = String.format("C |%5d|%5d|%5d\n", degsInPathway, nonDEGsInPathway, genesInPathway);
-        String line4 = String.format("C |%5d|%5d|%5d\n", degsNotInPathway, nonDEGsNotInPathway, genesNotInPathway);
-        String line5 = String.format("C |%5d|%5d|%5d\n", totalDEGs, nonDEGGenes, totalGenes);
+        String line3 = String.format(" C |%5d|%5d|%5d\n", degsInPathway, nonDEGsInPathway, genesInPathway);
+        String line4 = String.format(" C*|%5d|%5d|%5d\n", degsNotInPathway, nonDEGsNotInPathway, genesNotInPathway);
+        String line5 = String.format("sum|%5d|%5d|%5d\n", totalDEGs, nonDEGGenes, totalGenes);
         String line6 = "\nC: in pathway, C*: not in pathway\n";
         String line7 = "D: DEG (FDR <= 0.01), D*: non DEG";
 
