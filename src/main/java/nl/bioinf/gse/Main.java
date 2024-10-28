@@ -11,24 +11,43 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-
         String degsFilePath = "example_data/degs.csv";
         String pathwaysFilePath = "example_data/pathways.csv";
         String hsaPathwaysFilePath = "example_data/hsa_pathways.csv";
 
-
         CSVFileParser csvFileParser = new CSVFileParser();
 
         try {
-
             List<GeneRecord> geneRecords = csvFileParser.readDEGs(degsFilePath);
+            Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
+
+            // Write the gene records to CSV
             writeGeneRecordsToCSV(geneRecords, "gene_records_output.csv");
 
-
-            Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
+            // Write the pathway records to CSV
             writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
-            String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, "hsa00010");
-            System.out.println(table);
+
+            // Perform GSEA analysis
+            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
+            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
+
+            // Output the results
+            for (GSEAWithHypergeometric.GSEAResult result : results) {
+                System.out.println("Pathway: " + result.pathwayID);
+                System.out.println("P-Value: " + result.pValue);
+                System.out.println("Adjusted P-Value: " + result.adjustedPValue);
+                System.out.println("Enrichment Score: " + result.enrichmentScore);
+                System.out.println("-----------------------------------");
+            }
+
+            // Print the table below everything else
+            for (GSEAWithHypergeometric.GSEAResult result : results) {
+                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
+                System.out.println("Table for Pathway: " + result.pathwayID);
+                System.out.println(table);
+                System.out.println(); // Print an empty line for better separation
+            }
+
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
