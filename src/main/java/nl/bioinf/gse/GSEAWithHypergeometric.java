@@ -43,7 +43,7 @@ public class GSEAWithHypergeometric {
                     .filter(g -> g.adjustedPValue() <= fdrThreshold && pathwayGenes.contains(g.geneSymbol()))
                     .count();
 
-            // Run hypergeometric test
+
             double pValue = runHypergeometricTest((int) totalGenes, (int) genesInPathway, (int) totalDEGs, (int) degsInPathway);
 
             // Adjust p-value (Bonferroni correction for now)
