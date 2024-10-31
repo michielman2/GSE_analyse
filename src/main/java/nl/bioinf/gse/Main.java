@@ -40,7 +40,7 @@ public class Main {
                 System.out.println("-----------------------------------");
             }
 
-            // Print the table below everything else
+
             for (GSEAWithHypergeometric.GSEAResult result : results) {
                 String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
                 System.out.println("Table for Pathway: " + result.pathwayID);
