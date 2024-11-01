@@ -29,6 +29,7 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-pn", "--pathwayname"}, description = "The specific pathway name to analyze")
     private String pathwayName;
 
+
     @Override
     public Integer call() throws Exception {
         // Validate file existence for required files
@@ -53,5 +54,39 @@ public class CommandlineProcessor implements Callable<Integer> {
         // Insert your pathway analysis logic here
 
         return 0; // Success
+    }
+
+    public File getGeneFile() {
+        if (!geneFile.exists()) {
+            System.err.println("The gene file does not exist");
+        }
+        return geneFile;
+    }
+
+    public File getPathwayFile() {
+        if (!pathwayFile.exists()) {
+            System.err.println("The pathway file does not exist");
+        }
+        return pathwayFile;
+    }
+
+    public File getPathwayDescFile() {
+        if (!pathwayDescFile.exists()) {
+            System.err.println("the pathway description file does not exist");
+        }
+        return pathwayDescFile;
+    }
+
+    public String getGeneId() {
+        return geneId;
+    }
+
+    // Optional options
+    public int getHeaderLength() {
+        return headerLength;
+    }
+
+    public String getPathwayName() {
+        return pathwayName;
     }
 }
