@@ -1,34 +1,57 @@
 package nl.bioinf.gse;
 
 import picocli.CommandLine;
-import picocli.CommandLine.Parameters;
+import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import java.util.Arrays;
+import java.io.File;
+import java.util.concurrent.Callable;
 
-@CommandLine.Command(name="VCFfilter", version="VCFfilter 0.1", mixinStandardHelpOptions = true)
-public class CommandlineProcessor implements Runnable{
+public class CommandlineProcessor implements Callable<Integer> {
 
-    @Parameters(index="0", paramLabel = "<output>", description = "Output VCF file name")
-    private String outputVCF;
+    // Required options
+    @Option(names = {"-g", "--genefile"}, description = "The gene file to analyze", required = true)
+    private File geneFile;
 
-    // FIXME: should be required, but is ignored
-    @Parameters(index="1..*", description = "Input VCF file(s)")
-    private String[] inputVCF;
+    @Option(names = {"-pf", "--pathwayfile"}, description = "The pathway file containing pathways", required = true)
+    private File pathwayFile;
 
-    @Option(names = {"-f", "--filter-value"}, description = "Filter value")
-    private String filterOptions;
+    @Option(names = {"-pd", "--pathwaydescfile"}, description = "The pathway description file", required = true)
+    private File pathwayDescFile;
 
-    @Option(names = {"-v"}, description = "Verbose logging")
-    private boolean[] verbose;
+    @Option(names = {"-gid", "--geneid"}, description = "The gene ID format used (e.g., Ensembl, Entrez)", required = true)
+    private String geneId;
+
+    // Optional options
+    @Option(names = {"-h", "--headerlength"}, description = "The header length of files", defaultValue = "1")
+    private int headerLength;
+
+    @Option(names = {"-pn", "--pathwayname"}, description = "The specific pathway name to analyze")
+    private String pathwayName;
 
     @Override
-    public void run() {
-        System.out.println(outputVCF);
-        if (filterOptions != null) {
-            System.out.println(filterOptions);
+    public Integer call() throws Exception {
+        // Validate file existence for required files
+        if (!geneFile.exists() || !pathwayFile.exists() || !pathwayDescFile.exists()) {
+            System.err.println("One or more input files do not exist.");
+            return 1;
         }
 
+        // Print the options received (replace this with actual logic)
+        System.out.println("Gene file: " + geneFile.getAbsolutePath());
+        System.out.println("Pathway file: " + pathwayFile.getAbsolutePath());
+        System.out.println("Pathway description file: " + pathwayDescFile.getAbsolutePath());
+        System.out.println("Gene ID format: " + geneId);
+        System.out.println("Header length: " + headerLength);
 
+        if (pathwayName != null) {
+            System.out.println("Analyzing specific pathway: " + pathwayName);
+        } else {
+            System.out.println("Analyzing all pathways.");
+        }
+
+        // Insert your pathway analysis logic here
+
+        return 0; // Success
     }
 }

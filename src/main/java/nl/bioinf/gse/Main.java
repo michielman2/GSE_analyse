@@ -2,6 +2,7 @@ package nl.bioinf.gse;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import picocli.CommandLine;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -51,6 +52,9 @@ public class Main {
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
+        int exitCode = new CommandLine(new CommandlineProcessor()).execute(args);
+        System.exit(exitCode);
+
     }
 
     private static void writeGeneRecordsToCSV(List<GeneRecord> geneRecords, String outputPath) throws IOException {
