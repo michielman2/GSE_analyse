@@ -27,6 +27,8 @@ public class Main {
         String geneId = commandlineProcessor.getGeneId();
         int headerLength = commandlineProcessor.getHeaderLength();
         String pathwayName = commandlineProcessor.getPathwayName();
+        boolean boxplot = commandlineProcessor.getBoxplot();
+
 
         // Validate exit code before proceeding
         if (exitCode != 0) {
@@ -56,21 +58,21 @@ public class Main {
             List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
 
             // Output the results
-            for (GSEAWithHypergeometric.GSEAResult result : results) {
-                System.out.println("Pathway: " + result.pathwayID);
-                System.out.println("P-Value: " + result.pValue);
-                System.out.println("Adjusted P-Value: " + result.adjustedPValue);
-                System.out.println("Enrichment Score: " + result.enrichmentScore);
-                System.out.println("-----------------------------------");
-            }
+//            for (GSEAWithHypergeometric.GSEAResult result : results) {
+//                System.out.println("Pathway: " + result.pathwayID);
+//                System.out.println("P-Value: " + result.pValue);
+//                System.out.println("Adjusted P-Value: " + result.adjustedPValue);
+//                System.out.println("Enrichment Score: " + result.enrichmentScore);
+//                System.out.println("-----------------------------------");
+//            }
 
             // Print the table below everything else
-            for (GSEAWithHypergeometric.GSEAResult result : results) {
-                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
-                System.out.println("Table for Pathway: " + result.pathwayID);
-                System.out.println(table);
-                System.out.println(); // Print an empty line for better separation
-            }
+//            for (GSEAWithHypergeometric.GSEAResult result : results) {
+//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
+//                System.out.println("Table for Pathway: " + result.pathwayID);
+//                System.out.println(table);
+//                System.out.println(); // Print an empty line for better separation
+//            }
             Boxplot.showChart(results);
 
         } catch (IOException e) {
