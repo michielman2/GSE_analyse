@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import picocli.CommandLine;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class Main {
                 System.out.println(table);
                 System.out.println(); // Print an empty line for better separation
             }
+            Boxplot.showChart(results);
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
