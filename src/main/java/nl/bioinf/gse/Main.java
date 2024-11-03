@@ -2,7 +2,10 @@ package nl.bioinf.gse;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import picocli.CommandLine;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -11,9 +14,30 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) {
-        String degsFilePath = "example_data/degs.csv";
-        String pathwaysFilePath = "example_data/pathways.csv";
-        String hsaPathwaysFilePath = "example_data/hsa_pathways.csv";
+        // Create an instance of CommandlineProcessor
+        CommandlineProcessor commandlineProcessor = new CommandlineProcessor();
+
+        // Parse the command line arguments and execute the Callable
+        int exitCode = new CommandLine(commandlineProcessor).execute(args);
+
+        // Use commandlineProcessor instance to access the parsed options
+        File geneFile = commandlineProcessor.getGeneFile();
+        File pathwayFile = commandlineProcessor.getPathwayFile();
+        File pathwayDescFile = commandlineProcessor.getPathwayDescFile();
+        String geneId = commandlineProcessor.getGeneId();
+        int headerLength = commandlineProcessor.getHeaderLength();
+        String pathwayName = commandlineProcessor.getPathwayName();
+
+        // Validate exit code before proceeding
+        if (exitCode != 0) {
+            System.err.println("Failed to parse command line arguments.");
+            System.exit(exitCode);
+        }
+
+        // Check if geneFile is set correctly before using it
+        String degsFilePath = geneFile.getAbsolutePath();
+        String pathwaysFilePath = pathwayFile.getAbsolutePath();
+        String hsaPathwaysFilePath = pathwayDescFile.getAbsolutePath();
 
         CSVFileParser csvFileParser = new CSVFileParser();
 
@@ -47,6 +71,7 @@ public class Main {
                 System.out.println(table);
                 System.out.println(); // Print an empty line for better separation
             }
+            Boxplot.showChart(results);
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
