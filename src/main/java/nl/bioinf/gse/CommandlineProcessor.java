@@ -32,6 +32,11 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"--boxplot"}, description = "Generate boxplot if set to true.")
     private boolean boxplot = false;
 
+    @Option(names = {"--barchart"}, description = "Generate barchart if set to true.")
+    private boolean barchart = false;
+
+    @Option(names = {"--scatterplot"}, description = "Generate scatterplot if set to true.")
+    private boolean scatterplot = false;
 
     @Override
     public Integer call() throws Exception {
@@ -47,6 +52,9 @@ public class CommandlineProcessor implements Callable<Integer> {
         System.out.println("Pathway description file: " + pathwayDescFile.getAbsolutePath());
         System.out.println("Gene ID format: " + geneId);
         System.out.println("Header length: " + headerLength);
+        System.out.println("boxplot: " + boxplot);
+        System.out.println("barchart: " + barchart);
+        System.out.println("scatterplot: " + scatterplot);
 
         if (pathwayName != null) {
             System.out.println("Analyzing specific pathway: " + pathwayName);
@@ -92,7 +100,14 @@ public class CommandlineProcessor implements Callable<Integer> {
     public String getPathwayName() {
         return pathwayName;
     }
-    public boolean getBoxplot() {
+
+    public boolean getBoxPlot() {
+        return boxplot;
+    }
+    public boolean getBarChart() {
+        return boxplot;
+    }
+    public boolean getScatterPlot() {
         return boxplot;
     }
 }
