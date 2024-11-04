@@ -59,17 +59,52 @@ public class TableBuilder {
 
     }
 
+    public static int genesInPathway(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID){
+        int degsInPathway = degsInPathway(pathwayRecords, geneRecords, pathwayID);
+        int nonDEGsInPathway = nonDEGsInPathway(pathwayRecords, geneRecords, pathwayID);
+
+        return degsInPathway + nonDEGsInPathway;
+    }
+
+    public static long totalGenes(List<GeneRecord> geneRecords){
+        long totalNonDEGs = totalNonDEGS(geneRecords);
+        long totalDEGs = totalDEGS(geneRecords);
+
+        return totalNonDEGs + totalDEGs;
+    }
+
+    public static long degsNotinPathway(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID){
+        long totalDEGs = totalDEGS(geneRecords);
+        long degsInPathway = degsInPathway(pathwayRecords, geneRecords, pathwayID);
+
+        return totalDEGs - degsInPathway;
+    }
+
+    public static long nonDEGsNotInPathway(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID){
+        long totalNonDEGs = totalNonDEGS(geneRecords);
+        long nonDegsInPathway = nonDEGsInPathway(pathwayRecords, geneRecords, pathwayID);
+
+        return totalNonDEGs - nonDegsInPathway;
+    }
+
+    public static long genesNotInPathway(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID){
+        long totalgenes = totalGenes(geneRecords);
+        long genesinPathway = genesInPathway(geneRecords, pathwayRecords, pathwayID);
+
+        return totalgenes - genesinPathway;
+    }
+
     public static String tableBuilder(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID) {
         int degsInPathway = degsInPathway(pathwayRecords, geneRecords, pathwayID);
         int nonDEGsInPathway = nonDEGsInPathway(pathwayRecords, geneRecords, pathwayID);
         long totalDEGs = totalDEGS(geneRecords);
         long totalNonDEGs = totalNonDEGS(geneRecords);
 
-        int genesInPathway = degsInPathway + nonDEGsInPathway;
-        long totalGenes = totalNonDEGs + totalDEGs;
-        long degsNotInPathway = totalDEGs - degsInPathway;
-        long nonDEGsNotInPathway = totalNonDEGs - nonDEGsInPathway;
-        long genesNotInPathway = totalGenes - genesInPathway;
+        int genesInPathway = genesInPathway(geneRecords, pathwayRecords, pathwayID);
+        long totalGenes = totalGenes(geneRecords);
+        long degsNotInPathway = degsNotinPathway(geneRecords, pathwayRecords, pathwayID);
+        long nonDEGsNotInPathway = nonDEGsNotInPathway(geneRecords, pathwayRecords, pathwayID);
+        long genesNotInPathway = genesNotInPathway(geneRecords, pathwayRecords, pathwayID);
 
         String line1 = "   |  D  |  D* | Sum\n";
         String line2 = "--------------------\n";
