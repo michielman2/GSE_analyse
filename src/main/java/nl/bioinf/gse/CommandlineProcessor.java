@@ -29,6 +29,9 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-pn", "--pathwayname"}, description = "The specific pathway name to analyze")
     private String pathwayName;
 
+    @Option(names = {"--boxplot"}, description = "Generate boxplot if set to true.")
+    private boolean boxplot = false;
+
 
     @Override
     public Integer call() throws Exception {
@@ -88,5 +91,8 @@ public class CommandlineProcessor implements Callable<Integer> {
 
     public String getPathwayName() {
         return pathwayName;
+    }
+    public boolean getBoxplot() {
+        return boxplot;
     }
 }

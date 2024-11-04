@@ -17,7 +17,7 @@ public class Main {
         // Create an instance of CommandlineProcessor
         CommandlineProcessor commandlineProcessor = new CommandlineProcessor();
 
-        // Parse the command line arguments and execute the Callable
+        // temp
         int exitCode = new CommandLine(commandlineProcessor).execute(args);
 
         // Use commandlineProcessor instance to access the parsed options
@@ -64,7 +64,7 @@ public class Main {
                 System.out.println("-----------------------------------");
             }
 
-
+            // Print the table below everything else
             for (GSEAWithHypergeometric.GSEAResult result : results) {
                 String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
                 System.out.println("Table for Pathway: " + result.pathwayID);
