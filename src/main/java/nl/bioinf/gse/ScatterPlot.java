@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ScatterPlot {
@@ -39,12 +40,12 @@ public class ScatterPlot {
         return dataset;
     }
 
-    // Method to add labels (pathway IDs) to each point in the scatter plot
+    // Method to add labels (pathway descriptions) to each point in the scatter plot
     private static void addLabels(XYPlot plot, List<GSEARecord> topResults) {
         for (GSEARecord record : topResults) {
             double x = record.pValue();
             double y = record.enrichmentScore();
-            String label = record.pathwayID(); // Assuming pathwayID is a method that returns the pathway ID
+            String label = record.description();
 
             // Create an annotation for each point
             XYTextAnnotation annotation = new XYTextAnnotation(label, x, y);
@@ -73,13 +74,38 @@ public class ScatterPlot {
         addLabels(plot, topResults);
 
         // Set the x-axis range explicitly
-        plot.getDomainAxis().setRange(-0.1, 0.5);
+        plot.getDomainAxis().setRange(-0.05, 0.1);
 
         return chart;
     }
 
+    // Method to create a JPanel for each legend item
+    private static JPanel createLegendItem(String description, Color color) {
+        JPanel panel = new JPanel();
+        panel.setBackground(color);  // Each item retains its own color
+        panel.setPreferredSize(new Dimension(20, 20));
+        JLabel label = new JLabel(description);
+        panel.add(label);
+        return panel;
+    }
+
+    // Method to create a JPanel for the legend
+    private static JPanel createLegend(List<GSEARecord> topResults) {
+        JPanel legendPanel = new JPanel();
+        legendPanel.setLayout(new GridLayout(topResults.size(), 1));
+        legendPanel.setBackground(Color.WHITE); // Set the background color of the legend to white
+
+        for (int i = 0; i < topResults.size(); i++) {
+            GSEARecord record = topResults.get(i);
+            Color color = new Color(0, 0, 255 - i * (255 / topResults.size())); // Generate colors based on index
+            legendPanel.add(createLegendItem(record.description(), color));
+        }
+
+        return legendPanel;
+    }
+
     // Method to display the chart in a JFrame
-    static void showChart(List<GSEARecord> results) {
+    static void showChart(List<GSEARecord> results, Map<String, PathwayRecord> pathwayRecords) {
         // Sort and select top 20 results
         List<GSEARecord> topResults = results.stream()
                 .sorted(Comparator.comparingDouble(GSEARecord::enrichmentScore).reversed())
@@ -98,6 +124,10 @@ public class ScatterPlot {
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(new Dimension(800, 600));
         frame.add(chartPanel, BorderLayout.CENTER);
+
+        // Create and add the legend panel
+        JPanel legendPanel = createLegend(topResults);
+        frame.add(legendPanel, BorderLayout.SOUTH);
 
         // Display the window
         frame.pack();

@@ -28,8 +28,9 @@ public class GSEAFactory {
 
             double observedDEGs = degsInPathway;
             double enrichmentScore = gsea.calculateEnrichmentScore(observedDEGs, expectedDEGs);
+            String description = pathwayRecords.get(pathwayID).description();
 
-            gseaResults.add(new GSEARecord(pathwayID, pValue, adjustedPValue, enrichmentScore, observedDEGs, expectedDEGs));
+            gseaResults.add(new GSEARecord(pathwayID, pValue, adjustedPValue, enrichmentScore, observedDEGs, expectedDEGs, description));
         }
         return gseaResults;
     }

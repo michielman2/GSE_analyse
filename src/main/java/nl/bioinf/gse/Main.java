@@ -80,7 +80,7 @@ public class Main {
 //                System.out.println(); // Print an empty line for better separation
 //            }
             Boxplot.showChart(gseaResults);
-            ScatterPlot.showChart(gseaResults);
+            ScatterPlot.showChart(gseaResults, pathwayRecords);
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
