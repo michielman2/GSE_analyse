@@ -14,9 +14,11 @@ public class GSEA {
         return numerator / denominator;
     }
 
-    public double calculateEnrichmentScore(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
-        // ES = (DEGs in Pathway / Total DEGs) / (Genes in Pathway / Total Genes)
-        return ((double) degsInPathway / totalDEGs) / ((double) genesInPathway / totalGenes);
+    public double calculateEnrichmentScore(double observedDegCount, double expectedDegCount) {
+        if (expectedDegCount <= 0) {
+            return 0;
+        }
+        return (observedDegCount - expectedDegCount) / Math.sqrt(expectedDegCount);
     }
 
     public double calculatePValue(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
