@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GSEA {
-    private double hyperGeometricTest(long totalDEGs, long totalGenes, long degsInPathway, long genesInPathway) {
+    private double hyperGeometricTest(long degsInPathway, long genesInPathway, long totalDEGs, long totalGenes) {
         if (totalDEGs > totalGenes || degsInPathway > genesInPathway || totalDEGs < 0 || totalGenes < 0 || degsInPathway < 0 || genesInPathway < 0) {
             return 0.0;
         }
@@ -14,19 +14,19 @@ public class GSEA {
         return numerator / denominator;
     }
 
-    private double calculateEnrichmentScore(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
+    public double calculateEnrichmentScore(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
         // ES = (DEGs in Pathway / Total DEGs) / (Genes in Pathway / Total Genes)
         return (double) degsInPathway / totalDEGs / ((double) genesInPathway / totalGenes);
     }
 
-    private double calculatePValue(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
+    public double calculatePValue(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
         if (genesInPathway == 0 || totalDEGs == 0) {
             return 1.0;
         }
 
         double pValue = 0.0;
         for (long i = degsInPathway; i <= genesInPathway; i++) {
-            pValue += hyperGeometricTest(totalDEGs, totalGenes, i, genesInPathway);
+            pValue += hyperGeometricTest(i, genesInPathway, totalDEGs, totalGenes);
         }
 
         return Double.isNaN(pValue) ? 1.0 : pValue;
@@ -43,13 +43,14 @@ public class GSEA {
         }
         return coefficient;
     }
-    private double calculateExpectedDEGs(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayRecords, String pathwayID){
-        double degProportion = TableBuilder.totalDEGS(geneRecords)/ (double) TableBuilder.genesInPathway(geneRecords, pathwayRecords, pathwayID);
+    public double calculateExpectedDEGs(long totalDEGs, long genesInPathway, long totalGenes) {
 
-        return TableBuilder.genesInPathway(geneRecords, pathwayRecords, pathwayID) * degProportion;
+        double degProportion = (double) totalDEGs / (double) totalGenes;
+
+        return genesInPathway * degProportion;
 
     }
-    private double adjustPValue(double pValue, int numPathways) {
+    public double adjustPValue(double pValue, int numPathways) {
         return Math.min(1.0, pValue * numPathways); // Simple Bonferroni correction for now
     }
 }

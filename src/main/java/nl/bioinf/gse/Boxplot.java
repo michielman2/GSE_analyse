@@ -15,13 +15,13 @@ import java.util.List;
 
 public class Boxplot {
 
-    private static DefaultBoxAndWhiskerCategoryDataset createDataset(List<GSEAWithHypergeometric.GSEAResult> results) {
+    private static DefaultBoxAndWhiskerCategoryDataset createDataset(List<GSEARecord> results) {
         DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
 
         // Extract enrichment scores and filter out outliers
         List<Double> enrichmentScores = new ArrayList<>();
-        for (GSEAWithHypergeometric.GSEAResult pathway : results) {
-            enrichmentScores.add(pathway.enrichmentScore);
+        for (GSEARecord pathway : results) {
+            enrichmentScores.add(pathway.enrichmentScore());
         }
 
         // Filter out outliers
@@ -87,7 +87,7 @@ public class Boxplot {
     }
 
     // Method to display the chart in a JFrame
-    static void showChart(List<GSEAWithHypergeometric.GSEAResult> results) {
+    static void showChart(List<GSEARecord> results) {
         DefaultBoxAndWhiskerCategoryDataset dataset = createDataset(results);
         JFreeChart chart = createChart(dataset);
 

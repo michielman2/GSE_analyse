@@ -55,26 +55,30 @@ public class Main {
             writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
 
             // Perform GSEA analysis
-            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
-            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
+//            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
+//            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
+            GSEAFactory gseaFactory = new GSEAFactory();
+            List<GSEARecord> gseaResults = gseaFactory.performGSEA(TableBuilder.totalDEGS(geneRecords),TableBuilder.totalGenes(geneRecords),pathwayRecords, geneRecords);
 
             // Output the results
-//            for (GSEAWithHypergeometric.GSEAResult result : results) {
-//                System.out.println("Pathway: " + result.pathwayID);
-//                System.out.println("P-Value: " + result.pValue);
-//                System.out.println("Adjusted P-Value: " + result.adjustedPValue);
-//                System.out.println("Enrichment Score: " + result.enrichmentScore);
-//                System.out.println("-----------------------------------");
-//            }
+            for (GSEARecord result : gseaResults) {
+                System.out.println("Pathway: " + result.pathwayID());
+                System.out.println("P-Value: " + result.pValue());
+                System.out.println("Adjusted P-Value: " + result.adjustedPValue());
+                System.out.println("Enrichment Score: " + result.enrichmentScore());
+                System.out.println("Expected DEGs: "+ result.expectedDEGs());
+                System.out.println("Observed DEGs: "+ result.observedDEGs());
+                System.out.println("-----------------------------------");
+            }
 
             // Print the table below everything else
-//            for (GSEAWithHypergeometric.GSEAResult result : results) {
-//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID);
-//                System.out.println("Table for Pathway: " + result.pathwayID);
+//            for (GSEARecord result : gseaResults) {
+//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID());
+//                System.out.println("Table for Pathway: " + result.pathwayID());
 //                System.out.println(table);
 //                System.out.println(); // Print an empty line for better separation
 //            }
-            Boxplot.showChart(results);
+//            Boxplot.showChart(gseaResults);
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
