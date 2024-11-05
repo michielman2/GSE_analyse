@@ -16,7 +16,7 @@ public class GSEA {
 
     public double calculateEnrichmentScore(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {
         // ES = (DEGs in Pathway / Total DEGs) / (Genes in Pathway / Total Genes)
-        return (double) degsInPathway / totalDEGs / ((double) genesInPathway / totalGenes);
+        return ((double) degsInPathway / totalDEGs) / ((double) genesInPathway / totalGenes);
     }
 
     public double calculatePValue(long degsInPathway, long totalDEGs, long genesInPathway, long totalGenes) {

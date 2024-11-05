@@ -23,6 +23,9 @@ public class CommandlineProcessor implements Callable<Integer> {
     private String geneId;
 
     // Optional options
+    @Option(names = {"-t", "--treshold"}, description = "sets the cutoff for a gene to be seen as a DEG", defaultValue = "0.05")
+    private double treshold;
+
     @Option(names = {"-h", "--headerlength"}, description = "The header length of files", defaultValue = "1")
     private int headerLength;
 
@@ -93,6 +96,8 @@ public class CommandlineProcessor implements Callable<Integer> {
     }
 
     // Optional options
+    public double getTreshold() {return treshold;}
+
     public int getHeaderLength() {
         return headerLength;
     }

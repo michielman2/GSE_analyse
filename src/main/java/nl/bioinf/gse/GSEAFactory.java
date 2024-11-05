@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 public class GSEAFactory {
-    public List<GSEARecord> performGSEA(long totalDEGs, long totalGenes, Map<String, PathwayRecord> pathwayRecords, List<GeneRecord> geneRecords){
+    public List<GSEARecord> performGSEA(long totalDEGs, long totalGenes, Map<String, PathwayRecord> pathwayRecords, List<GeneRecord> geneRecords, double treshold){
         GSEA gsea = new GSEA();
         List<GSEARecord> gseaResults = new ArrayList<>();
 
         int numPathways = pathwayRecords.size();
 
         for (String pathwayID : pathwayRecords.keySet()) {
-            long degsInPathway = TableBuilder.degsInPathway(pathwayRecords, geneRecords, pathwayID);
-            long genesInPathway = TableBuilder.genesInPathway(geneRecords, pathwayRecords, pathwayID);
+            long degsInPathway = TableBuilder.degsInPathway(pathwayRecords, geneRecords, pathwayID, treshold);
+            long genesInPathway = TableBuilder.genesInPathway(geneRecords, pathwayRecords, pathwayID, treshold);
 
             double pValue = (degsInPathway > 0)
                     ? gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes)

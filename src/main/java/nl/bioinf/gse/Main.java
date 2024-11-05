@@ -30,6 +30,7 @@ public class Main {
         boolean boxPlot = commandlineProcessor.getBoxPlot();
         boolean barChart = commandlineProcessor.getBarChart();
         boolean scatterPlot = commandlineProcessor.getScatterPlot();
+        double treshold = commandlineProcessor.getTreshold();
 
         // Validate exit code before proceeding
         if (exitCode != 0) {
@@ -58,7 +59,7 @@ public class Main {
 //            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
 //            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
             GSEAFactory gseaFactory = new GSEAFactory();
-            List<GSEARecord> gseaResults = gseaFactory.performGSEA(TableBuilder.totalDEGS(geneRecords),TableBuilder.totalGenes(geneRecords),pathwayRecords, geneRecords);
+            List<GSEARecord> gseaResults = gseaFactory.performGSEA(TableBuilder.totalDEGS(geneRecords, treshold),TableBuilder.totalGenes(geneRecords, treshold),pathwayRecords, geneRecords, treshold);
 
             // Output the results
             for (GSEARecord result : gseaResults) {
@@ -73,12 +74,12 @@ public class Main {
 
             // Print the table below everything else
 //            for (GSEARecord result : gseaResults) {
-//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID());
+//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID(), treshold);
 //                System.out.println("Table for Pathway: " + result.pathwayID());
 //                System.out.println(table);
 //                System.out.println(); // Print an empty line for better separation
 //            }
-//            Boxplot.showChart(gseaResults);
+            Boxplot.showChart(gseaResults);
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
