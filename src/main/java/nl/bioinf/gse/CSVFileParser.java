@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,25 +14,29 @@ import java.util.Map;
 
 public class CSVFileParser {
 
-    
     public List<GeneRecord> readDEGs(String filePath) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
-       
-        try (CSVParser parser = new CSVParser(new FileReader(filePath), CSVFormat.DEFAULT.withIgnoreHeaderCase().withTrim())) {
-            for (CSVRecord record : parser) {
-                
-                String geneSymbol = record.get(0);  
-                double logFoldChange = Double.parseDouble(record.get(1)); 
-                double adjustedPValue = Double.parseDouble(record.get(2));  
+        // Determine the delimiter based on file extension
+        CSVFormat format = filePath.endsWith(".tsv") ?
+                CSVFormat.DEFAULT.withDelimiter('\t') :
+                CSVFormat.DEFAULT.withDelimiter(',');
 
-                GeneRecord geneRecord = new GeneRecord(geneSymbol, logFoldChange, adjustedPValue);
-                geneRecords.add(geneRecord);
+        try (CSVParser parser = new CSVParser(new FileReader(new File(filePath)), format.withIgnoreHeaderCase().withTrim())) {
+            for (CSVRecord record : parser) {
+                String geneSymbol = record.get(0);
+
+                // Check for "NA" and skip parsing those fields
+                double logFoldChange = "NA".equals(record.get(1)) ? Double.NaN : Double.parseDouble(record.get(1));
+                double adjustedPValue = "NA".equals(record.get(2)) ? Double.NaN : Double.parseDouble(record.get(2));
+
+                geneRecords.add(new GeneRecord(geneSymbol, logFoldChange, adjustedPValue));
             }
         }
 
         return geneRecords;
     }
+
 
     
     public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath) throws IOException {

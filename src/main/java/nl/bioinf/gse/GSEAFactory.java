@@ -22,11 +22,12 @@ public class GSEAFactory {
 
             double adjustedPValue = gsea.adjustPValue(pValue, numPathways);
 
-            double enrichmentScore = gsea.calculateEnrichmentScore(degsInPathway, totalDEGs, genesInPathway, totalGenes);
+
 
             double expectedDEGs = gsea.calculateExpectedDEGs(totalDEGs, genesInPathway, totalGenes);
 
             double observedDEGs = degsInPathway;
+            double enrichmentScore = gsea.calculateEnrichmentScore(observedDEGs, expectedDEGs);
 
             gseaResults.add(new GSEARecord(pathwayID, pValue, adjustedPValue, enrichmentScore, observedDEGs, expectedDEGs));
         }
