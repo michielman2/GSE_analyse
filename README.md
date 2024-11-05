@@ -27,30 +27,37 @@ Download gradle from the official website <br>
 Alternatively, if you're using IntelliJ, Gradle is managed automatically as part of the project dependencies.<br>
 
 ##### Build the project <br>
+When first downloading the project, click on the gradle button in the top right of the intellij IDE. <br>
+Then hit the "reload all gradle projects" button. after that type in the terminal: <br?
 ```
-./gradlew build
+./gradlew clean build    
 ```
-#### Run the project <br>
-```
-./gradlew run
 
-```
-The data is located in the example data folder.<br>
 
 ### Input files<br>
-DEGs csv, this file should contain DEGS with the following collumns,<br>
+genes.csv/tsv, this file should contain all the genes with the following collumns,<br>
 -GeneSymbol<br>
 -Log fold change<br>
 -Adjusted p-value<br>
 
-Pathways csv, this file should contain pathways with the following collumns,<br>
+Pathways.csv/tsv, this file should contain pathways with the following collumns,<br>
 -Pathway ID<br>
 -Entrez ID<br>
 -GeneSymbol<br>
 -Ensembl ID<br>
 
-Hsa pathway csv, this file contain the description of the pathways <br>
+Hsa pathway csv/tsv, this file contain the description of the pathways <br>
 
+### How to run 
+Here is an example of the most basic command line argument when running the program: <br>
+```
+java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_smokers.tsv -pf example_data/pathways.csv -pd example_data/hsa_pathways.csv -gid Entrezid 
+```
+| Argument       | Description                             | Required |
+|----------------|---------------------------------------|----------------|
+| `-g`           | The gene input file                   | Yes      |
+| `-pf`       | The pathways file containing the pathways           | Yes      |
+| `-pd`       | The pathways description file          | Yes      |
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
@@ -64,6 +71,8 @@ Notch signaling pathway (hsa04330)
  C*   | 2886 | 923  | 3809
  Sum  | 2904 | 18926 | 21830
 ```
+
+ 
 
 ### Future implementations<br>
 - Adding the math and statistics steps to our programme.<br>
