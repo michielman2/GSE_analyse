@@ -49,14 +49,12 @@ public class FileParser {
 
                 // If either of these values is "NA", skip this record
                 if ("NA".equals(logFoldChangeStr) || "NA".equals(adjustedPValueStr)) {
-                    continue; // Skip this record entirely
+                    continue;
                 }
 
-                // Parse the log fold change and adjusted p-value
                 double logFoldChange = Double.parseDouble(logFoldChangeStr);
                 double adjustedPValue = Double.parseDouble(adjustedPValueStr);
 
-                // Add the valid GeneRecord to the list
                 geneRecords.add(new GeneRecord(geneSymbol, logFoldChange, adjustedPValue));
             }
         }

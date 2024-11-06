@@ -24,7 +24,7 @@ public class GSEA {
             return 0.0;
         }
 
-        // Calculate the numerator using binomial coefficients
+        // Calculate the numerator
         double numerator = calculateBinomialCoefficient(totalDEGs, degsInPathway) * calculateBinomialCoefficient(totalGenes - totalDEGs, genesInPathway - degsInPathway);
 
         // Calculate the denominator
