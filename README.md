@@ -84,7 +84,12 @@ Observed DEGs: 15.0 <br>
 Average LogFoldChange: 0.05528164677713069 <br>
 
 Also the following graphs will be shows and you can choose wether to save them to png or not: <br>
-![table of pathway](https://github.com/michielman2/GSE_analyse/raw/main/images/pathway%20table.png)
+![table of pathway](https://github.com/michielman2/GSE_analyse/raw/main/images/pathway%20table.png) <br>
+This shows the table of the selected pathway <br>
+![boxplot enrichmentscore](https://github.com/michielman2/GSE_analyse/raw/main/images/boxplot_en.png) <br>
+This show the boxplot that was selected showing the enrichmentscore of all the pathways <br>
+![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png)
+This shows the scatterplot of the 20 pathways with the highest logfolchange<br>
 
 
 
