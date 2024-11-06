@@ -88,9 +88,23 @@ Also the following graphs will be shows and you can choose wether to save them t
 This shows the table of the selected pathway <br>
 ![boxplot enrichmentscore](https://github.com/michielman2/GSE_analyse/raw/main/images/boxplot_en.png) <br>
 This show the boxplot that was selected showing the enrichmentscore of all the pathways <br>
-![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png)
+![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png) <br>
 This shows the scatterplot of the 20 pathways with the highest logfolchange<br>
 
+### Support <br>
+When using our programme, if you encounter any bugs, please contact us via mail (see Authors and Acknowledgments) <br>
+### Authors and Acknowledgments <br>
+Devolepers: <br>
+* Michiel Meeuwisse M.D.meeuwise@st.hanze.nl    <br>
+* Daan Roorda H.A.roorda@st.hanze.nl <br>
+Data contributed by: <br>
+* Marcel Kempenaar: m.kempenaar@pl.hanze.nl
+
+### License <br>
+No license applied for this project <br>
+
+### Changelog <br>
+2024-11-6 **V1** First version of the programme
 
 
 
