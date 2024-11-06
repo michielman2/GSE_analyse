@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class FileParser {
 
+    // Method to read Differentially Expressed Genes (DEGs) from a file
     public List<GeneRecord> readDEGs(String filePath, int headerLength) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
@@ -42,10 +43,20 @@ public class FileParser {
 
                 String geneSymbol = record.get(0);
 
-                // Check for "NA" and skip parsing those fields
-                double logFoldChange = "NA".equals(record.get(1)) ? Double.NaN : Double.parseDouble(record.get(1));
-                double adjustedPValue = "NA".equals(record.get(2)) ? Double.NaN : Double.parseDouble(record.get(2));
+                // Check for "NA" and skip the entire record if "NA" is found in either relevant field
+                String logFoldChangeStr = record.get(1);
+                String adjustedPValueStr = record.get(2);
 
+                // If either of these values is "NA", skip this record
+                if ("NA".equals(logFoldChangeStr) || "NA".equals(adjustedPValueStr)) {
+                    continue; // Skip this record entirely
+                }
+
+                // Parse the log fold change and adjusted p-value
+                double logFoldChange = Double.parseDouble(logFoldChangeStr);
+                double adjustedPValue = Double.parseDouble(adjustedPValueStr);
+
+                // Add the valid GeneRecord to the list
                 geneRecords.add(new GeneRecord(geneSymbol, logFoldChange, adjustedPValue));
             }
         }
@@ -53,6 +64,7 @@ public class FileParser {
         return geneRecords;
     }
 
+    // Method to read Pathways from the file
     public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath, int headerLength, String geneType) throws IOException {
         Map<String, PathwayRecord> pathwayMap = new HashMap<>();
         Map<String, String> pathwayDescriptions = new HashMap<>();

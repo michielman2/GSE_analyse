@@ -35,8 +35,8 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-pn", "--pathwayname"}, description = "If used you will only get the enrichment table and the GSEA results for the given pathway. When not used you will get them for all pathways. If you use: no_pathways, it will show no enrichment tables or GSEA results.", defaultValue = "all_pathways")
     private String pathwayName;
 
-    @Option(names = {"--boxplot"}, description = "Will generate a boxplot of the enrichment scores for all pathways when used.")
-    private boolean boxplot = false;
+    @Option(names = {"--boxplot"}, description = "Will generate a boxplot of the enrichment scores for all pathways when used.", defaultValue = "no_boxplot")
+    private String boxplot;
 
     @Option(names = {"--scatterplot"}, description = "Will generate a scatterplot of the 20 pathways with the highest enrichment score.")
     private boolean scatterplot = false;
@@ -105,8 +105,13 @@ public class CommandlineProcessor implements Callable<Integer> {
         return pathwayName;
     }
 
-    public boolean getBoxPlot() {
-        return boxplot;
+    public String getBoxPlot() {
+        if (boxplot == "no_boxplot" || boxplot.equalsIgnoreCase("enrichmentscore") || boxplot.equalsIgnoreCase("pvalue") || boxplot.equalsIgnoreCase("adjusted_pvalue")) {
+            return boxplot;
+        } else{
+            throw new IllegalArgumentException("Unsupported boxplot option chosen");
+        }
+
     }
     public boolean getScatterPlot() {
         return scatterplot;

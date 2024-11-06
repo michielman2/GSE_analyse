@@ -23,7 +23,7 @@ public class Main {
         String geneId = commandlineProcessor.getGeneId();
         int headerLength = commandlineProcessor.getHeaderLength();
         String pathwayName = commandlineProcessor.getPathwayName();
-        boolean boxPlot = commandlineProcessor.getBoxPlot();
+        String boxPlot = commandlineProcessor.getBoxPlot();
         boolean scatterPlot = commandlineProcessor.getScatterPlot();
         double treshold = commandlineProcessor.getTreshold();
         boolean savePlot = commandlineProcessor.getSavePlot();
@@ -52,7 +52,7 @@ public class Main {
             TerminalOutput.printEnrichmentTables(gseaResults,pathwayRecords, pathwayName, geneRecords, treshold);
             TerminalOutput.printGSEAResults(gseaResults, pathwayRecords,pathwayName);
 
-            if (boxPlot){Boxplot.showChart(gseaResults, savePlot);}
+            if (boxPlot != "no_boxplot"){Boxplot.showChart(gseaResults, savePlot, boxPlot);}
             if (scatterPlot){ScatterPlot.showChart(gseaResults, savePlot);}
 
         } catch (IOException e) {
