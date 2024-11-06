@@ -79,8 +79,9 @@ public class Main {
 //                System.out.println(table);
 //                System.out.println(); // Print an empty line for better separation
 //            }
-            Boxplot.showChart(gseaResults);
-            ScatterPlot.showChart(gseaResults);
+            if (boxPlot){Boxplot.showChart(gseaResults);}
+            if (scatterPlot){ScatterPlot.showChart(gseaResults);}
+            if (barChart){}
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());

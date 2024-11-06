@@ -110,9 +110,9 @@ public class CommandlineProcessor implements Callable<Integer> {
         return boxplot;
     }
     public boolean getBarChart() {
-        return boxplot;
+        return barchart;
     }
     public boolean getScatterPlot() {
-        return boxplot;
+        return scatterplot;
     }
 }
