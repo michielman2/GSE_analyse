@@ -60,7 +60,7 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 | `-pd`       | The pathways description file.          | Yes      |
 | `-gid`      | The gene ID format used, such as "Entrez, Gene_symbol, Ensembl".  | Yes |
 | `-t`        | The cutoff value for the adjusted P-Value for a gene to be seen as a DEG. Default is 0.05. | No|
-| `-pn`       | The specific pathway you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
+| `-pn`       | The specific pathwayID you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
 | `-h`        | The lenght of your header, default value is 1 | No |
 | `--boxplot` | Gives a boxplot of the enrichment score | No |
 | `--scatterplot`| Gives a scatterplot of the enrichment score | No |
