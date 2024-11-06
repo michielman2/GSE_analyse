@@ -65,8 +65,9 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 | `-t`        | The cutoff value for the adjusted P-Value for a gene to be seen as a DEG. Default is 0.05. | No|
 | `-pn`       | The specific pathwayID you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
 | `-h`        | The lenght of your header, default value is 1 | No |
-| `--boxplot` | Gives a boxplot of the enrichment score | No |
-| `--scatterplot`| Gives a scatterplot of the enrichment score | No |
+| `-png`      | Select if you want to save the graph to a png | No |
+| `--boxplot` | Gives a boxplot of the "enrichmentscore", "pvalue", "adjusted_pvalue", after `--boxplot`, type one of these 3 option after a space | No |
+| `--scatterplot`| Gives a scatterplot of the "enrichmentscore" or "avglogfoldchange", after `--scatterplot`, type of these 2 options after a space | No |
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
