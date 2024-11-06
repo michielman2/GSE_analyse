@@ -3,8 +3,8 @@ This java tool analyses DEGs and genes in Pathways to find out which DEGs are pr
 The tool is capable of given a table for a pathway based on the amount of total genes and DEGs absent and present in a given pathway of the users liking.<br>
 
 ### Features
-**DEG proccesing** - Reads and procceses genes from a csv file <br>
-**Pathways proccesing** - Reads and procceses pathways from a csv file <br>
+**DEG proccesing** - Reads and procceses genes from a csv/tsv file <br>
+**Pathways proccesing** - Reads and procceses pathways from a csv/tsv file <br>
 **Gene Counting** - Calculates the genes in a given pathway. Total genes, genes in the pathway, DEGs in the pathway, non DEGs in the pathway.<br>
 **Creating pathway table** - Creates a table based on the values above.<br>
 
@@ -28,7 +28,7 @@ Alternatively, if you're using IntelliJ, Gradle is managed automatically as part
 
 ##### Build the project <br>
 When first downloading the project, click on the gradle button in the top right of the intellij IDE. <br>
-Then hit the "reload all gradle projects" button. after that type in the terminal: <br?
+Then hit the "reload all gradle projects" button. after that type in the terminal: <br>
 ```
 ./gradlew clean build    
 ```
@@ -77,10 +77,3 @@ Notch signaling pathway (hsa04330)
  C*   | 2886 | 923  | 3809
  Sum  | 2904 | 18926 | 21830
 ```
-
- 
-
-### Future implementations<br>
-- Adding the math and statistics steps to our programme.<br>
-- Adding the visualisation steps to our programme<br>
-- Adding unit testing.<br>
