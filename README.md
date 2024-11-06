@@ -35,12 +35,13 @@ Then hit the "reload all gradle projects" button. after that type in the termina
 
 
 ### Input files<br>
-genes.csv/tsv, this file should contain all the genes with the following collumns,<br>
+genes.csv/tsv, The name of the file doesn't matter <br>
+This file should contain all the genes with the following collumns, *in this order* ,<br>
 -GeneSymbol<br>
 -Log fold change<br>
 -Adjusted p-value<br>
 
-Pathways.csv/tsv, this file should contain pathways with the following collumns,<br>
+Pathways.csv/tsv, this file should contain pathways with the following collumns, *in this order*,<br>
 -Pathway ID<br>
 -Entrez ID<br>
 -GeneSymbol<br>
