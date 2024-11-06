@@ -28,7 +28,14 @@ import java.util.stream.Collectors;
 
 public class ScatterPlot {
 
-    // Method to create a dataset from the top 20 GSEA records
+    /**
+     * Creates a dataset for the scatter plot using the top 20 pathways based on enrichment score
+     * or average log fold change, depending on the dataType.
+     *
+     * @param results List of GSEARecord objects containing pathway data.
+     * @param dataType Specifies the metric for sorting pathways ("enrichmentscore" or "avglogfoldchange").
+     * @return DefaultXYDataset containing the top 20 pathways for plotting.
+     */
     private static DefaultXYDataset createDataset(List<GSEARecord> results, String dataType) {
         List<GSEARecord> topResults;
 
@@ -65,7 +72,14 @@ public class ScatterPlot {
         return dataset;
     }
 
-    // Method to create the scatter plot chart with dynamic axis titles based on dataType
+    /**
+     * Creates a scatter plot chart with customized renderer, labels, and legend based on the top 20 pathways.
+     *
+     * @param dataset The XY dataset containing the pathway data for the scatter plot.
+     * @param topResults List of GSEARecord objects representing the top 20 pathways.
+     * @param dataType Specifies the metric shown on the y-axis ("enrichmentscore" or "avglogfoldchange").
+     * @return JFreeChart configured as a scatter plot with customized appearance.
+     */
     private static JFreeChart createChart(DefaultXYDataset dataset, List<GSEARecord> topResults, String dataType) {
         // Set chart title and Y-axis label based on dataType
         String yAxisLabel = "enrichmentscore".equalsIgnoreCase(dataType) ? "Enrichment Score" : "Average Log Fold Change";
@@ -110,7 +124,14 @@ public class ScatterPlot {
         return chart;
     }
 
-    // Method to center the plot around data points
+    /**
+     * Centers the plot around data points by calculating x and y axis ranges based on min and max values,
+     * with a margin, for improved visualization.
+     *
+     * @param plot XYPlot object of the chart to be centered.
+     * @param topResults List of GSEARecord objects containing pathway data.
+     * @param dataType Determines the metric for the y-axis range ("enrichmentscore" or "avglogfoldchange").
+     */
     private static void centerPlotAroundData(XYPlot plot, List<GSEARecord> topResults, String dataType) {
         double minX = topResults.stream().mapToDouble(GSEARecord::pValue).min().orElse(0);
         double maxX = topResults.stream().mapToDouble(GSEARecord::pValue).max().orElse(1);
@@ -132,7 +153,15 @@ public class ScatterPlot {
         plot.getDomainAxis().setRange(minX - xMargin, maxX + xMargin);
         plot.getRangeAxis().setRange(minY - yMargin, maxY + yMargin);
     }
-    // Helper method to add labels to each point
+
+    /**
+     * Adds labels to each data point in the scatter plot, based on the selected y-axis metric (enrichment score
+     * or average log fold change).
+     *
+     * @param plot XYPlot object to which labels are added.
+     * @param topResults List of GSEARecord objects representing the top 20 pathways.
+     * @param dataType Specifies the metric shown on the y-axis ("enrichmentscore" or "avglogfoldchange").
+     */
     private static void addLabels(XYPlot plot, List<GSEARecord> topResults, String dataType) {
         for (GSEARecord record : topResults) {
             double x = record.pValue();
@@ -155,7 +184,14 @@ public class ScatterPlot {
         }
     }
 
-    // Helper method to create a custom legend with color mapping, sorted by enrichment score
+    /**
+     * Creates a custom legend for the scatter plot with colors unique to each pathway description, allowing
+     * for clear identification of each pathway in the chart.
+     *
+     * @param colorMap Map of pathway descriptions to their associated colors.
+     * @param topResults List of GSEARecord objects representing the top 20 pathways.
+     * @return LegendTitle object with a custom legend for the chart.
+     */
     private static LegendTitle createCustomLegend(Map<String, Color> colorMap, List<GSEARecord> topResults) {
         LegendItemCollection legendItems = new LegendItemCollection();
 
@@ -183,7 +219,13 @@ public class ScatterPlot {
         return legend;
     }
 
-    // Method to generate a map of pathway descriptions to unique colors
+    /**
+     * Generates a color map that associates each pathway description with a unique color, using
+     * the HSB color model for distinct color variations.
+     *
+     * @param topResults List of GSEARecord objects representing the top 20 pathways.
+     * @return Map of pathway descriptions to their corresponding colors.
+     */
     private static Map<String, Color> generateColorMap(List<GSEARecord> topResults) {
         Map<String, Color> colorMap = new HashMap<>();
         float hueStep = 1.0f / topResults.size(); // Spread colors across the color wheel
@@ -196,12 +238,14 @@ public class ScatterPlot {
         return colorMap;
     }
 
-    // Method to save the chart as a PNG file
+    /**
+     * Saves the generated chart as a PNG image file with a specified resolution.
+     *
+     * @param chart The JFreeChart object representing the scatter plot.
+     */
     private static void saveChartAsPNG(JFreeChart chart) {
         try {
-            // Specify the file where you want to save the image
             File file = new File("top_20_pathways_scatter_plot.png");
-            // Save the chart as a PNG file with a width of 800 pixels and height of 600 pixels
             ChartUtils.saveChartAsPNG(file, chart, 800, 600);
             System.out.println("Chart saved as PNG: " + file.getAbsolutePath());
         } catch (IOException e) {
@@ -209,7 +253,14 @@ public class ScatterPlot {
         }
     }
 
-    // Method to display the chart in a JFrame, with an option to save as a PNG
+    /**
+     * Displays the chart in a JFrame with the option to save the plot as a PNG file. Configures
+     * the chart based on the data type for the y-axis metric (enrichment score or average log fold change).
+     *
+     * @param results List of GSEARecord objects containing pathway data.
+     * @param savePlot Boolean flag to indicate whether to save the chart as a PNG file.
+     * @param dataType Specifies the metric shown on the y-axis ("enrichmentscore" or "avglogfoldchange").
+     */
     static void showChart(List<GSEARecord> results, boolean savePlot, String dataType) {
         List<GSEARecord> topResults = results.stream()
                 .sorted(Comparator.comparingDouble(
