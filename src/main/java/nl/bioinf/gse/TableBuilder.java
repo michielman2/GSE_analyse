@@ -25,7 +25,7 @@ public class TableBuilder {
         int degCount = 0;
 
         PathwayRecord selectedPathway = pathwayRecords.get(pathwayID);
-        geneID.addAll(selectedPathway.geneSymbols());
+        geneID.addAll(selectedPathway.geneIDs());
 
         for (GeneRecord geneRecord : geneRecords) {
             if (geneID.contains(geneRecord.geneSymbol())){
@@ -43,7 +43,7 @@ public class TableBuilder {
         int geneCount = 0;
 
         PathwayRecord selectedPathway = pathwayRecords.get(pathwayID);
-        geneID.addAll(selectedPathway.geneSymbols());
+        geneID.addAll(selectedPathway.geneIDs());
 
         for (GeneRecord geneRecord : geneRecords) {
             if (geneID.contains(geneRecord.geneSymbol())){
