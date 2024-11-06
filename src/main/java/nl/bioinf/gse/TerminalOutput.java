@@ -15,6 +15,7 @@ public class TerminalOutput {
                 System.out.println("Enrichment Score: " + result.enrichmentScore());
                 System.out.println("Expected DEGs: " + result.expectedDEGs());
                 System.out.println("Observed DEGs: " + result.observedDEGs());
+                System.out.println("Average LogFoldChange: " + result.avgLogFoldChange());
                 System.out.println("-----------------------------------");
             }
         } else {
@@ -33,6 +34,7 @@ public class TerminalOutput {
                 System.out.println("Enrichment Score: " + matchingRecord.enrichmentScore());
                 System.out.println("Expected DEGs: " + matchingRecord.expectedDEGs());
                 System.out.println("Observed DEGs: " + matchingRecord.observedDEGs());
+                System.out.println("Average LogFoldChange: " + matchingRecord.avgLogFoldChange());
                 System.out.println("-----------------------------------");
             } else {
                 // pathwayName does not match any pathwayID in the map, throw an exception
