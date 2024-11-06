@@ -65,8 +65,9 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 | `-t`        | The cutoff value for the adjusted P-Value for a gene to be seen as a DEG. Default is 0.05. | No|
 | `-pn`       | The specific pathwayID you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
 | `-h`        | The lenght of your header, default value is 1 | No |
-| `--boxplot` | Gives a boxplot of the enrichment score | No |
-| `--scatterplot`| Gives a scatterplot of the enrichment score | No |
+| `-png`      | Select if you want to save the graph to a png | No |
+| `--boxplot` | Gives a boxplot of the "enrichmentscore", "pvalue", "adjusted_pvalue", after `--boxplot`, type one of these 3 option after a space | No |
+| `--scatterplot`| Gives a scatterplot of the "enrichmentscore" or "avglogfoldchange", after `--scatterplot`, type of these 2 options after a space | No |
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
@@ -84,6 +85,27 @@ Observed DEGs: 15.0 <br>
 Average LogFoldChange: 0.05528164677713069 <br>
 
 Also the following graphs will be shows and you can choose wether to save them to png or not: <br>
+![table of pathway](https://github.com/michielman2/GSE_analyse/raw/main/images/pathway%20table.png) <br>
+This shows the table of the selected pathway <br>
+![boxplot enrichmentscore](https://github.com/michielman2/GSE_analyse/raw/main/images/boxplot_en.png) <br>
+This show the boxplot that was selected showing the enrichmentscore of all the pathways <br>
+![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png) <br>
+This shows the scatterplot of the 20 pathways with the highest logfolchange<br>
+
+### Support <br>
+When using our programme, if you encounter any bugs, please contact us via mail (see Authors and Acknowledgments) <br>
+### Authors and Acknowledgments <br>
+Devolepers: <br>
+* Michiel Meeuwisse M.D.meeuwise@st.hanze.nl    <br>
+* Daan Roorda H.A.roorda@st.hanze.nl <br>
+Data contributed by: <br>
+* Marcel Kempenaar: m.kempenaar@pl.hanze.nl
+
+### License <br>
+No license applied for this project <br>
+
+### Changelog <br>
+2024-11-6 **V1** First version of the programme
 
 
 
