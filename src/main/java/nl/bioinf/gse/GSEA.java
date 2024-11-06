@@ -18,7 +18,7 @@ public class GSEA {
      * @param totalGenes     Total number of genes in the entire dataset.
      * @return Probability from the hypergeometric test, or 0.0 if input values are invalid.
      */
-    private double hyperGeometricTest(long degsInPathway, long genesInPathway, long totalDEGs, long totalGenes) {
+    double hyperGeometricTest(long degsInPathway, long genesInPathway, long totalDEGs, long totalGenes) {
         // Ensures the values are valid, if any condition fails, return 0.0 as the error indicates
         if (totalDEGs > totalGenes || degsInPathway > genesInPathway || totalDEGs < 0 || totalGenes < 0 || degsInPathway < 0 || genesInPathway < 0) {
             return 0.0;
@@ -82,7 +82,7 @@ public class GSEA {
      * @param k Items to choose.
      * @return Binomial coefficient or 0 if k > n.
      */
-    private double calculateBinomialCoefficient(long n, long k) {
+    double calculateBinomialCoefficient(long n, long k) {
         // the calculations
         if (k > n) return 0;
         if (k == 0 || k == n) return 1;
