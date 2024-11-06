@@ -41,8 +41,8 @@ public class Main {
         FileParser fileParser = new FileParser();
 
         try {
-            List<GeneRecord> geneRecords = fileParser.readDEGs(degsFilePath);
-            Map<String, PathwayRecord> pathwayRecords = fileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
+            List<GeneRecord> geneRecords = fileParser.readDEGs(degsFilePath, headerLength);
+            Map<String, PathwayRecord> pathwayRecords = fileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath, headerLength);
 
             // Perform GSEA analysis
             GSEAFactory gseaFactory = new GSEAFactory();

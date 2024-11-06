@@ -26,7 +26,7 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-t", "--treshold"}, description = "sets the cutoff for a gene to be seen as a DEG", defaultValue = "0.05")
     private double treshold;
 
-    @Option(names = {"-h", "--headerlength"}, description = "The header length of files", defaultValue = "1")
+    @Option(names = {"-h", "--headerlength"}, description = "The header length of files", defaultValue = "0")
     private int headerLength;
 
     @Option(names = {"-pn", "--pathwayname"}, description = "The specific pathway name to analyze")
