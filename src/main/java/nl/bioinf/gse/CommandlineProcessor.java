@@ -38,8 +38,8 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"--boxplot"}, description = "Will generate a boxplot of the enrichment scores for all pathways when used.", defaultValue = "no_boxplot")
     private String boxplot;
 
-    @Option(names = {"--scatterplot"}, description = "Will generate a scatterplot of the 20 pathways with the highest enrichment score.")
-    private boolean scatterplot = false;
+    @Option(names = {"--scatterplot"}, description = "using this option will generate a scatterplot of the enrichmentscore or the avg logfoldchange and the pvalue of the top 20 pathways.", defaultValue = "no_scatterplot")
+    private String scatterplot;
 
     @Override
     public Integer call() throws Exception {
@@ -113,8 +113,12 @@ public class CommandlineProcessor implements Callable<Integer> {
         }
 
     }
-    public boolean getScatterPlot() {
-        return scatterplot;
+    public String getScatterPlot() {
+        if (scatterplot == "no_scatterplot" || scatterplot.equalsIgnoreCase("enrichmentscore") || scatterplot.equalsIgnoreCase("avglogfoldchange")) {
+            return scatterplot;
+        } else{
+            throw new IllegalArgumentException("Unsupported scatterplot option chosen");
+        }
     }
     public boolean getSavePlot() {return savePlot;}
 }

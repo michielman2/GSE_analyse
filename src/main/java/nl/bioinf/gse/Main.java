@@ -24,7 +24,7 @@ public class Main {
         int headerLength = commandlineProcessor.getHeaderLength();
         String pathwayName = commandlineProcessor.getPathwayName();
         String boxPlot = commandlineProcessor.getBoxPlot();
-        boolean scatterPlot = commandlineProcessor.getScatterPlot();
+        String scatterPlot = commandlineProcessor.getScatterPlot();
         double treshold = commandlineProcessor.getTreshold();
         boolean savePlot = commandlineProcessor.getSavePlot();
 
@@ -53,7 +53,7 @@ public class Main {
             TerminalOutput.printGSEAResults(gseaResults, pathwayRecords,pathwayName);
 
             if (boxPlot != "no_boxplot"){Boxplot.showChart(gseaResults, savePlot, boxPlot);}
-            if (scatterPlot){ScatterPlot.showChart(gseaResults, savePlot);}
+            if (scatterPlot != "no_scatterplot"){ScatterPlot.showChart(gseaResults, savePlot, scatterPlot);}
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
