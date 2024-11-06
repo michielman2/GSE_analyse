@@ -26,6 +26,9 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-t", "--treshold"}, description = "sets the cutoff for the adjusted P-value of a gene to be seen as a DEG.", defaultValue = "0.05")
     private double treshold;
 
+    @Option(names = {"-png", "--saveplotstopng"}, description = "if used all generated plots will be saved as a png")
+    private boolean savePlot = false;
+
     @Option(names = {"-h", "--headerlength"}, description = "The amount of lines that the header takes up in the given files.", defaultValue = "0")
     private int headerLength;
 
@@ -108,4 +111,5 @@ public class CommandlineProcessor implements Callable<Integer> {
     public boolean getScatterPlot() {
         return scatterplot;
     }
+    public boolean getSavePlot() {return savePlot;}
 }

@@ -26,6 +26,7 @@ public class Main {
         boolean boxPlot = commandlineProcessor.getBoxPlot();
         boolean scatterPlot = commandlineProcessor.getScatterPlot();
         double treshold = commandlineProcessor.getTreshold();
+        boolean savePlot = commandlineProcessor.getSavePlot();
 
         // Validate exit code before proceeding
         if (exitCode != 0) {
@@ -51,8 +52,8 @@ public class Main {
             TerminalOutput.printEnrichmentTables(gseaResults,pathwayRecords, pathwayName, geneRecords, treshold);
             TerminalOutput.printGSEAResults(gseaResults, pathwayRecords,pathwayName);
 
-            if (boxPlot){Boxplot.showChart(gseaResults);}
-            if (scatterPlot){ScatterPlot.showChart(gseaResults);}
+            if (boxPlot){Boxplot.showChart(gseaResults, savePlot);}
+            if (scatterPlot){ScatterPlot.showChart(gseaResults, savePlot);}
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
