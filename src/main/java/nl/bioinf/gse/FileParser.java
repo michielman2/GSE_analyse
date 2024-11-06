@@ -14,11 +14,19 @@ import java.util.Map;
 
 public class FileParser {
 
-    // Method to read Differentially Expressed Genes (DEGs) from a file
+    /**
+     * Reads DEGs from a file and returns a list of GeneRecord objects.
+     *
+     * @param filePath The path to the DEGs file (CSV or TSV).
+     * @param headerLength The header length
+     * @return A list of GeneRecord objects representing the DEGs.
+     * @throws IOException If an error occurs during file reading.
+     */
+    // Method to read DEGs from a given file by the user
     public List<GeneRecord> readDEGs(String filePath, int headerLength) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
-        // Determine the delimiter based on file extension
+        // Determine the delimiter based on file extension csv or tsv.
         CSVFormat format;
         if (filePath.endsWith(".tsv")) {
             format = CSVFormat.DEFAULT.withDelimiter('\t');
@@ -28,7 +36,7 @@ public class FileParser {
             throw new IOException("Unsupported file format. Please provide a .csv or .tsv file.");
         }
 
-        // Create a parser with specified header length (lines to skip)
+        // Create a parser with specified header length
         try (CSVParser parser = new CSVParser(
                 new FileReader(new File(filePath)),
                 format.withIgnoreHeaderCase().withTrim().withSkipHeaderRecord(true))) {
@@ -43,20 +51,20 @@ public class FileParser {
 
                 String geneSymbol = record.get(0);
 
-                // Check for "NA" and skip the entire record if "NA" is found in either relevant field
+                // Check for "NAs" and skip the entire record if "NA" is found in the line
                 String logFoldChangeStr = record.get(1);
                 String adjustedPValueStr = record.get(2);
 
-                // If either of these values is "NA", skip this record
+                // if the value is NA skip the record
                 if ("NA".equals(logFoldChangeStr) || "NA".equals(adjustedPValueStr)) {
-                    continue; // Skip this record entirely
+                    continue;
                 }
 
                 // Parse the log fold change and adjusted p-value
                 double logFoldChange = Double.parseDouble(logFoldChangeStr);
                 double adjustedPValue = Double.parseDouble(adjustedPValueStr);
 
-                // Add the valid GeneRecord to the list
+                // Add the GeneRecord to the list
                 geneRecords.add(new GeneRecord(geneSymbol, logFoldChange, adjustedPValue));
             }
         }
@@ -64,12 +72,23 @@ public class FileParser {
         return geneRecords;
     }
 
-    // Method to read Pathways from the file
+    /**
+     * Reads pathway data and returns a map of pathwayrecord objects, keyed by pathway ID.
+     *
+     * @param pathwaysFilePath The path to the pathways file.
+     * @param hsaPathwaysFilePath The path to the pathway descriptions file.
+     * @param headerLength The number of lines to skip before reading data.
+     * @param geneType The gene ID type to be used (Entrez, Gene_symbol, or Ensembl. only gene_symbol can be used.).
+     * @return A map of PathwayRecord objects, keyed by pathway ID.
+     * @throws IOException when an error occurs.
+     * @throws IllegalArgumentException If an unsupported gene type is given.
+     */
+    // Method to read pathways from the given file
     public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath, int headerLength, String geneType) throws IOException {
         Map<String, PathwayRecord> pathwayMap = new HashMap<>();
         Map<String, String> pathwayDescriptions = new HashMap<>();
 
-        // Determine the delimiter based on file extension for hsaPathwaysFilePath
+        // Determine the delimiter by looking at the extension, csv or tsv
         CSVFormat format;
         if (hsaPathwaysFilePath.endsWith(".tsv")) {
             format = CSVFormat.DEFAULT.withDelimiter('\t');
@@ -79,7 +98,7 @@ public class FileParser {
             throw new IOException("Unsupported file format for hsa pathways. Please provide a .csv or .tsv file.");
         }
 
-        // Read pathway descriptions file
+        // Read pathway descriptions from the file
         try (CSVParser parser = new CSVParser(new FileReader(hsaPathwaysFilePath), format.withIgnoreHeaderCase().withTrim().withSkipHeaderRecord(true))) {
             int linesSkipped = 0;
             for (CSVRecord record : parser) {
@@ -94,7 +113,7 @@ public class FileParser {
             }
         }
 
-        // Read pathways file and map genes to pathways
+        // Read pathways file and map genes to the pathways
         try (CSVParser parser = new CSVParser(new FileReader(pathwaysFilePath), format.withIgnoreHeaderCase().withTrim().withSkipHeaderRecord(true))) {
             int linesSkipped = 0;
             for (CSVRecord record : parser) {
