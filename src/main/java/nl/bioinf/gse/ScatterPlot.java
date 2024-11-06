@@ -28,7 +28,12 @@ import java.util.stream.Collectors;
 
 public class ScatterPlot {
 
-    // Method to create a dataset from the top 20 GSEA records
+    /**
+     * Create dataset for the top 20 pathways based on enrichment score.
+     *
+     * @param results A list of GSEA results.
+     * @return A dataset for the scatter plot, containing p-value and enrichment score data.
+     */
     private static DefaultXYDataset createDataset(List<GSEARecord> results) {
         List<GSEARecord> topResults = results.stream()
                 .sorted(Comparator.comparingDouble(GSEARecord::enrichmentScore).reversed())
@@ -38,6 +43,7 @@ public class ScatterPlot {
         DefaultXYDataset dataset = new DefaultXYDataset();
         double[][] data = new double[2][topResults.size()]; // [0] for x (p-value), [1] for y (enrichment score)
 
+        // Loop over the top 20 results and fill in the dataset with p-values and enrichment scores
         for (int i = 0; i < topResults.size(); i++) {
             GSEARecord record = topResults.get(i);
             data[0][i] = record.pValue();         // X-axis (p-value)
@@ -48,7 +54,13 @@ public class ScatterPlot {
         return dataset;
     }
 
-    // Method to create the scatter plot chart
+    /**
+     * Create a scatter plot chart based on the dataset.
+     *
+     * @param dataset Dataset to be plotted.
+     * @param topResults List of top 20 results to customize the chart.
+     * @return The generated scatter plot chart.
+     */
     private static JFreeChart createChart(DefaultXYDataset dataset, List<GSEARecord> topResults) {
         JFreeChart chart = ChartFactory.createScatterPlot(
                 "Top 20 Pathways by Enrichment Score",  // chart title
@@ -56,16 +68,16 @@ public class ScatterPlot {
                 "Enrichment Score",                      // y-axis label
                 dataset,                                 // dataset
                 PlotOrientation.VERTICAL,
-                true,                                    // include legend
+                true,                                    // show legend
                 true,
                 false
         );
 
         XYPlot plot = chart.getXYPlot();
 
-        // Custom renderer to set circular shapes and unique colors for each point
+        // Custom renderer to set circle shapes and unique colors for each point
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer(false, true);
-        renderer.setDefaultShape(new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6)); // Circular shape
+        renderer.setDefaultShape(new java.awt.geom.Ellipse2D.Double(-3, -3, 6, 6));
 
         // Generate unique colors for each pathway and set them in the renderer
         Map<String, Color> colorMap = generateColorMap(topResults);
@@ -76,20 +88,25 @@ public class ScatterPlot {
 
         plot.setRenderer(renderer);
 
-        // Add labels to each data point with pathway descriptions
+        // adding label per datapoint
         addLabels(plot, topResults);
 
         // Add a custom legend with pathway descriptions and colors, sorted by enrichment score
         LegendTitle legend = createCustomLegend(colorMap, topResults);
         chart.addLegend(legend);
 
-        // Automatically center the plot around the data points
+        // Center the plot around the data points
         centerPlotAroundData(plot, topResults);
 
         return chart;
     }
 
-    // Method to center the plot around data points
+    /**
+     * Adjust plot ranges to center the data points.
+     *
+     * @param plot The XYPlot to adjust.
+     * @param topResults The top 20 results to calculate axis ranges.
+     */
     private static void centerPlotAroundData(XYPlot plot, List<GSEARecord> topResults) {
         // Find min and max values for p-value and enrichment score
         double minX = topResults.stream().mapToDouble(GSEARecord::pValue).min().orElse(0);
@@ -97,7 +114,7 @@ public class ScatterPlot {
         double minY = topResults.stream().mapToDouble(GSEARecord::enrichmentScore).min().orElse(0);
         double maxY = topResults.stream().mapToDouble(GSEARecord::enrichmentScore).max().orElse(1);
 
-        // Calculate ranges for x and y with a small margin
+        // Calculate ranges for x and y
         double xMargin = (maxX - minX) * 0.2;
         double yMargin = (maxY - minY) * 0.2;
 
@@ -106,7 +123,12 @@ public class ScatterPlot {
         plot.getRangeAxis().setRange(minY - yMargin, maxY + yMargin);
     }
 
-    // Helper method to add labels to each point
+    /**
+     * Add labels to each data point.
+     *
+     * @param plot The XYPlot to add labels to.
+     * @param topResults List of top 20 results to label.
+     */
     private static void addLabels(XYPlot plot, List<GSEARecord> topResults) {
         for (GSEARecord record : topResults) {
             double x = record.pValue();
@@ -121,7 +143,13 @@ public class ScatterPlot {
         }
     }
 
-    // Helper method to create a custom legend with color mapping, sorted by enrichment score
+    /**
+     * Create a custom legend based on pathway descriptions and their colors.
+     *
+     * @param colorMap A map of pathway descriptions to colors.
+     * @param topResults List of top 20 results for legend items.
+     * @return A custom legend for the chart.
+     */
     private static LegendTitle createCustomLegend(Map<String, Color> colorMap, List<GSEARecord> topResults) {
         LegendItemCollection legendItems = new LegendItemCollection();
 
@@ -135,7 +163,7 @@ public class ScatterPlot {
             legendItems.add(legendItem);
         }
 
-        // Wrap the LegendItemCollection in a LegendItemSource
+
         LegendTitle legend = new LegendTitle(new LegendItemSource() {
             @Override
             public LegendItemCollection getLegendItems() {
@@ -149,7 +177,12 @@ public class ScatterPlot {
         return legend;
     }
 
-    // Method to generate a map of pathway descriptions to unique colors
+    /**
+     * Generate a map of pathway descriptions to unique colors.
+     *
+     * @param topResults List of top 20 results to generate the color map.
+     * @return A map of pathway descriptions to unique colors.
+     */
     private static Map<String, Color> generateColorMap(List<GSEARecord> topResults) {
         Map<String, Color> colorMap = new HashMap<>();
         float hueStep = 1.0f / topResults.size(); // Spread colors across the color wheel
@@ -162,7 +195,11 @@ public class ScatterPlot {
         return colorMap;
     }
 
-    // Method to save the chart as a PNG file
+    /**
+     * Save the chart as a PNG file.
+     *
+     * @param chart The chart to save.
+     */
     private static void saveChartAsPNG(JFreeChart chart) {
         try {
             // Specify the file where you want to save the image
@@ -175,31 +212,32 @@ public class ScatterPlot {
         }
     }
 
-    // Method to display the chart in a JFrame, with an option to save as a PNG
+    /**
+     * Display the scatter plot and optionally save it as a PNG.
+     *
+     * @param results A list of GSEA results.
+     * @param savePlot Whether to save the plot as a PNG file.
+     */
     static void showChart(List<GSEARecord> results, boolean savePlot) {
         List<GSEARecord> topResults = results.stream()
                 .sorted(Comparator.comparingDouble(GSEARecord::enrichmentScore).reversed())
                 .limit(20)
                 .collect(Collectors.toList());
 
-        DefaultXYDataset dataset = createDataset(topResults);
+        DefaultXYDataset dataset = createDataset(results);
         JFreeChart chart = createChart(dataset, topResults);
 
-        // If savePlot is true, save the chart as a PNG file
-        if (savePlot) {
-            saveChartAsPNG(chart);
-        }
-
-        JFrame frame = new JFrame("Scatter Plot of Top 20 Pathways");
+        // Display the chart in a Swing panel
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setPreferredSize(new java.awt.Dimension(800, 600));
+        JFrame frame = new JFrame("Top 20 Pathways Scatter Plot");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(800, 600));
-        frame.add(chartPanel, BorderLayout.CENTER);
-
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
         frame.pack();
-        frame.setLocationRelativeTo(null); // Center the frame
         frame.setVisible(true);
+
+        if (savePlot) {
+            saveChartAsPNG(chart); // Save the plot as a PNG if requested
+        }
     }
 }
