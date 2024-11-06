@@ -49,8 +49,6 @@ public class Main {
             Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
 
             // Perform GSEA analysis
-//            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
-//            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
             GSEAFactory gseaFactory = new GSEAFactory();
             List<GSEARecord> gseaResults = gseaFactory.performGSEA(TableBuilder.totalDEGS(geneRecords, treshold),TableBuilder.totalGenes(geneRecords, treshold),pathwayRecords, geneRecords, treshold);
 
