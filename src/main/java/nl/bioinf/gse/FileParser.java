@@ -12,15 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CSVFileParser {
+public class FileParser {
 
     public List<GeneRecord> readDEGs(String filePath) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
-        // Determine the delimiter based on file extension
-        CSVFormat format = filePath.endsWith(".tsv") ?
-                CSVFormat.DEFAULT.withDelimiter('\t') :
-                CSVFormat.DEFAULT.withDelimiter(',');
+        CSVFormat format;
+        if (filePath.endsWith(".tsv")) {
+            format = CSVFormat.DEFAULT.withDelimiter('\t');
+        } else if (filePath.endsWith(".csv")) {
+            format = CSVFormat.DEFAULT.withDelimiter(',');
+        } else {
+            throw new IOException("Unsupported file format. Please provide a .csv or .tsv file.");
+        }
 
         try (CSVParser parser = new CSVParser(new FileReader(new File(filePath)), format.withIgnoreHeaderCase().withTrim())) {
             for (CSVRecord record : parser) {

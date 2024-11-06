@@ -1,12 +1,8 @@
 package nl.bioinf.gse;
 
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import picocli.CommandLine;
 
-import javax.swing.*;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +38,11 @@ public class Main {
         String pathwaysFilePath = pathwayFile.getAbsolutePath();
         String hsaPathwaysFilePath = pathwayDescFile.getAbsolutePath();
 
-        CSVFileParser csvFileParser = new CSVFileParser();
+        FileParser fileParser = new FileParser();
 
         try {
-            List<GeneRecord> geneRecords = csvFileParser.readDEGs(degsFilePath);
-            Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
+            List<GeneRecord> geneRecords = fileParser.readDEGs(degsFilePath);
+            Map<String, PathwayRecord> pathwayRecords = fileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
 
             // Perform GSEA analysis
             GSEAFactory gseaFactory = new GSEAFactory();
