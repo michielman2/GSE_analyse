@@ -14,9 +14,12 @@ import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.LegendItem;
 import org.jfree.chart.LegendItemCollection;
 import org.jfree.chart.LegendItemSource;
+import org.jfree.chart.ChartUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -159,8 +162,21 @@ public class ScatterPlot {
         return colorMap;
     }
 
-    // Method to display the chart in a JFrame
-    static void showChart(List<GSEARecord> results) {
+    // Method to save the chart as a PNG file
+    private static void saveChartAsPNG(JFreeChart chart) {
+        try {
+            // Specify the file where you want to save the image
+            File file = new File("top_20_pathways_scatter_plot.png");
+            // Save the chart as a PNG file with a width of 800 pixels and height of 600 pixels
+            ChartUtils.saveChartAsPNG(file, chart, 800, 600);
+            System.out.println("Chart saved as PNG: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error saving chart as PNG: " + e.getMessage());
+        }
+    }
+
+    // Method to display the chart in a JFrame, with an option to save as a PNG
+    static void showChart(List<GSEARecord> results, boolean savePlot) {
         List<GSEARecord> topResults = results.stream()
                 .sorted(Comparator.comparingDouble(GSEARecord::enrichmentScore).reversed())
                 .limit(20)
@@ -168,6 +184,11 @@ public class ScatterPlot {
 
         DefaultXYDataset dataset = createDataset(topResults);
         JFreeChart chart = createChart(dataset, topResults);
+
+        // If savePlot is true, save the chart as a PNG file
+        if (savePlot) {
+            saveChartAsPNG(chart);
+        }
 
         JFrame frame = new JFrame("Scatter Plot of Top 20 Pathways");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

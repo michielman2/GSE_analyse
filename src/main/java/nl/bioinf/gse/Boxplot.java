@@ -6,9 +6,12 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BoxAndWhiskerRenderer;
 import org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset;
+import org.jfree.chart.ChartUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,10 +89,15 @@ public class Boxplot {
         return chart;
     }
 
-    // Method to display the chart in a JFrame
-    static void showChart(List<GSEARecord> results) {
+    // Method to display the chart in a JFrame, with an option to save as a PNG
+    static void showChart(List<GSEARecord> results, boolean savePlot) {
         DefaultBoxAndWhiskerCategoryDataset dataset = createDataset(results);
         JFreeChart chart = createChart(dataset);
+
+        // If savePlot is true, save the chart as a PNG file
+        if (savePlot) {
+            saveChartAsPNG(chart);
+        }
 
         // Create and set up the window
         JFrame frame = new JFrame("Boxplot of Pathway Enrichment Scores");
@@ -105,5 +113,18 @@ public class Boxplot {
         frame.pack();
         frame.setLocationRelativeTo(null); // Center the frame
         frame.setVisible(true);
+    }
+
+    // Method to save the chart as a PNG file
+    private static void saveChartAsPNG(JFreeChart chart) {
+        try {
+            // Specify the file where you want to save the image
+            File file = new File("pathway_enrichment_scores.png");
+            // Save the chart as a PNG file with a width of 800 pixels and height of 600 pixels
+            ChartUtils.saveChartAsPNG(file, chart, 800, 600);
+            System.out.println("Chart saved as PNG: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error saving chart as PNG: " + e.getMessage());
+        }
     }
 }

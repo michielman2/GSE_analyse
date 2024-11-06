@@ -26,6 +26,7 @@ public class Main {
         boolean boxPlot = commandlineProcessor.getBoxPlot();
         boolean scatterPlot = commandlineProcessor.getScatterPlot();
         double treshold = commandlineProcessor.getTreshold();
+        boolean savePlot = commandlineProcessor.getSavePlot();
 
         // Validate exit code before proceeding
         if (exitCode != 0) {
@@ -48,26 +49,11 @@ public class Main {
             GSEAFactory gseaFactory = new GSEAFactory();
             List<GSEARecord> gseaResults = gseaFactory.performGSEA(TableBuilder.totalDEGS(geneRecords, treshold),TableBuilder.totalGenes(geneRecords, treshold),pathwayRecords, geneRecords, treshold);
 
-            // Output the results
-            for (GSEARecord result : gseaResults) {
-                System.out.println("Pathway: " + result.pathwayID());
-                System.out.println("P-Value: " + result.pValue());
-                System.out.println("Adjusted P-Value: " + result.adjustedPValue());
-                System.out.println("Enrichment Score: " + result.enrichmentScore());
-                System.out.println("Expected DEGs: "+ result.expectedDEGs());
-                System.out.println("Observed DEGs: "+ result.observedDEGs());
-                System.out.println("-----------------------------------");
-            }
+            TerminalOutput.printEnrichmentTables(gseaResults,pathwayRecords, pathwayName, geneRecords, treshold);
+            TerminalOutput.printGSEAResults(gseaResults, pathwayRecords,pathwayName);
 
-            // Print the table below everything else
-//            for (GSEARecord result : gseaResults) {
-//                String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID(), treshold);
-//                System.out.println("Table for Pathway: " + result.pathwayID());
-//                System.out.println(table);
-//                System.out.println(); // Print an empty line for better separation
-//            }
-            if (boxPlot){Boxplot.showChart(gseaResults);}
-            if (scatterPlot){ScatterPlot.showChart(gseaResults);}
+            if (boxPlot){Boxplot.showChart(gseaResults, savePlot);}
+            if (scatterPlot){ScatterPlot.showChart(gseaResults, savePlot);}
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());
