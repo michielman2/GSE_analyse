@@ -10,32 +10,32 @@ import java.util.concurrent.Callable;
 public class CommandlineProcessor implements Callable<Integer> {
 
     // Required options
-    @Option(names = {"-g", "--genefile"}, description = "The gene file to analyze", required = true)
+    @Option(names = {"-g", "--genefile"}, description = "The path to the gene file to analyze.", required = true)
     private File geneFile;
 
-    @Option(names = {"-pf", "--pathwayfile"}, description = "The pathway file containing pathways", required = true)
+    @Option(names = {"-pf", "--pathwayfile"}, description = "The path to the pathway file containing pathways.", required = true)
     private File pathwayFile;
 
-    @Option(names = {"-pd", "--pathwaydescfile"}, description = "The pathway description file", required = true)
+    @Option(names = {"-pd", "--pathwaydescfile"}, description = "The path to the pathway description file.", required = true)
     private File pathwayDescFile;
 
-    @Option(names = {"-gid", "--geneid"}, description = "The gene ID format used (e.g., Ensembl, Entrez)", required = true)
+    @Option(names = {"-gid", "--geneid"}, description = "The gene ID format used (options: Entrez, Ensembl, Gene_symbol).", required = true)
     private String geneId;
 
     // Optional options
-    @Option(names = {"-t", "--treshold"}, description = "sets the cutoff for a gene to be seen as a DEG", defaultValue = "0.05")
+    @Option(names = {"-t", "--treshold"}, description = "sets the cutoff for the adjusted P-value of a gene to be seen as a DEG.", defaultValue = "0.05")
     private double treshold;
 
-    @Option(names = {"-h", "--headerlength"}, description = "The header length of files", defaultValue = "0")
+    @Option(names = {"-h", "--headerlength"}, description = "The amount of lines that the header takes up in the given files.", defaultValue = "0")
     private int headerLength;
 
-    @Option(names = {"-pn", "--pathwayname"}, description = "The specific pathway name to analyze")
+    @Option(names = {"-pn", "--pathwayname"}, description = "If used you will only get the enrichment table and the GSEA results for the given pathway. When not used you will get them for all pathways. If you use: no_pathways, it will show no enrichment tables or GSEA results.")
     private String pathwayName;
 
-    @Option(names = {"--boxplot"}, description = "Generate boxplot if set to true.")
+    @Option(names = {"--boxplot"}, description = "Will generate a boxplot of the enrichment scores for all pathways when used.")
     private boolean boxplot = false;
 
-    @Option(names = {"--scatterplot"}, description = "Generate scatterplot if set to true.")
+    @Option(names = {"--scatterplot"}, description = "Will generate a scatterplot of the 20 pathways with the highest enrichment score.")
     private boolean scatterplot = false;
 
     @Override
