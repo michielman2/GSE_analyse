@@ -69,8 +69,30 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
 Given these commandline arguments(pathway hsa04330, boxplot of enrichmentscore and scatterplot of logfoldchange: <br>
-```java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g .\example_data\degs_smokers.tsv -pf .\example_data\pathways.csv -pd .\example_data\hsa_pathways.csv -gid gene_symbol  --boxplot enrichmentscore  -png --scatterplot avglogfoldchange -pn```
+```java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g .\example_data\degs_smokers.tsv -pf .\example_data\pathways.csv -pd .\example_data\hsa_pathways.csv -gid gene_symbol  --boxplot enrichmentscore  -png --scatterplot avglogfoldchange -pn``` <br>
 The output should look like this: <br>
+Table for Pathway: hsa04330
+
+    |  D  |  D* | Sum
+--------------------
+ C |   15|   41|   56
+ C*| 4311|23981|28292
+sum| 4326|24022|28348
+
+C: in pathway, C*: not in pathway
+D: DEG (FDR <= 0.01), D*: non DEG
+
+Pathway: Notch signaling pathway
+KEGG PathwayID: hsa04330
+P-Value: 0.018301675473708756
+Adjusted P-Value: 1.0
+Enrichment Score: 2.2078377933746425
+Expected DEGs: 8.545788062649923
+Observed DEGs: 15.0
+Average LogFoldChange: 0.05528164677713069
+
+Also the following graphs will be shows and you can choose wether to save them to png or not: <br>
+
 
 
 
