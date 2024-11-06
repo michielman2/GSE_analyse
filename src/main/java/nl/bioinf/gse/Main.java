@@ -85,26 +85,4 @@ public class Main {
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
     }
-
-    private static void writeGeneRecordsToCSV(List<GeneRecord> geneRecords, String outputPath) throws IOException {
-        try (FileWriter out = new FileWriter(outputPath);
-             CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader("Gene Symbol", "Log Fold Change", "Adjusted P-Value"))) {
-            for (GeneRecord geneRecord : geneRecords) {
-                printer.printRecord(geneRecord.geneSymbol(), geneRecord.logFoldChange(), geneRecord.adjustedPValue());
-            }
-        }
-    }
-
-    private static void writePathwayRecordsToCSV(Map<String, PathwayRecord> pathwayRecords, String outputPath) throws IOException {
-        try (FileWriter out = new FileWriter(outputPath);
-             CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader("Pathway ID", "Description", "Entrez Gene IDs", "Ensembl Gene IDs", "Gene Symbols"))) {
-            for (PathwayRecord pathwayRecord : pathwayRecords.values()) {
-                printer.printRecord(pathwayRecord.pathwayID(),
-                        pathwayRecord.description(),
-                        String.join(", ", pathwayRecord.entrezGeneIDs()),
-                        String.join(", ", pathwayRecord.ensemblGeneIDs()),
-                        String.join(", ", pathwayRecord.geneSymbols()));
-            }
-        }
-    }
 }
