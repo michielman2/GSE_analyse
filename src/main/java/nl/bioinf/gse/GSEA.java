@@ -123,4 +123,43 @@ public class GSEA {
         // Apply Bonferroni correction by multiplying p-value by the number of pathways
         return Math.min(1.0, pValue * numPathways);
     }
+
+    /**
+     * Calculates the average log fold change of genes associated with a specified pathway.
+     *
+     * @param geneRecords   List of GeneRecord objects containing gene data.
+     * @param pathwayMap    Map of PathwayRecord objects with pathway IDs as keys.
+     * @param pathwayId     The ID of the pathway for which the average log fold change is needed.
+     * @return              The average log fold change for the genes linked to the specified pathway.
+     *                      Returns Double.NaN if no valid genes are found.
+     */
+    public double calculateAverageLogFoldChange(List<GeneRecord> geneRecords, Map<String, PathwayRecord> pathwayMap, String pathwayId) {
+
+        // Get the pathway from the map using the provided pathwayId
+        PathwayRecord pathway = pathwayMap.get(pathwayId);
+        if (pathway == null) {
+            throw new IllegalArgumentException("Pathway with ID " + pathwayId + " not found.");
+        }
+
+        // Initialize variables for sum and count of log fold changes
+        double sumLogFoldChange = 0.0;
+        int count = 0;
+
+        // Loop through each gene ID in the pathway and find its corresponding log fold change
+        for (String geneId : pathway.geneIDs()) {
+            for (GeneRecord geneRecord : geneRecords) {
+                if (geneRecord.geneSymbol().equals(geneId)) {
+                    // Check if log fold change is a valid number (not NaN)
+                    if (!Double.isNaN(geneRecord.logFoldChange())) {
+                        sumLogFoldChange += geneRecord.logFoldChange();
+                        count++;
+                    }
+                }
+            }
+        }
+
+        // Calculate the average, handling case when no valid genes are found
+        return count > 0 ? sumLogFoldChange / count : Double.NaN;
+    }
 }
+

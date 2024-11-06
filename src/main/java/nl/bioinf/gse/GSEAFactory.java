@@ -52,11 +52,13 @@ public class GSEAFactory {
             double observedDEGs = degsInPathway;
             double enrichmentScore = gsea.calculateEnrichmentScore(observedDEGs, expectedDEGs);
 
+            double avgLogFoldChange = gsea.calculateAverageLogFoldChange(geneRecords, pathwayRecords, pathwayID);
+
             // Retrieve the description of the pathway
             String description = pathwayRecords.get(pathwayID).description();
 
             // Add the calculated values to a new GSEARecord and store it in the results list
-            gseaResults.add(new GSEARecord(pathwayID, pValue, adjustedPValue, enrichmentScore, observedDEGs, expectedDEGs, description));
+            gseaResults.add(new GSEARecord(pathwayID, pValue, adjustedPValue, enrichmentScore, observedDEGs, expectedDEGs, description, avgLogFoldChange));
         }
 
         // Return the list of GSEA results containing enrichment information for all pathways
