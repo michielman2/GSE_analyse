@@ -3,8 +3,8 @@ This java tool analyses DEGs and genes in Pathways to find out which DEGs are pr
 The tool is capable of given a table for a pathway based on the amount of total genes and DEGs absent and present in a given pathway of the users liking.<br>
 
 ### Features
-**DEG proccesing** - Reads and procceses genes from a csv file <br>
-**Pathways proccesing** - Reads and procceses pathways from a csv file <br>
+**DEG proccesing** - Reads and procceses genes from a csv/tsv file <br>
+**Pathways proccesing** - Reads and procceses pathways from a csv/tsv file <br>
 **Gene Counting** - Calculates the genes in a given pathway. Total genes, genes in the pathway, DEGs in the pathway, non DEGs in the pathway.<br>
 **Creating pathway table** - Creates a table based on the values above.<br>
 
@@ -28,7 +28,7 @@ Alternatively, if you're using IntelliJ, Gradle is managed automatically as part
 
 ##### Build the project <br>
 When first downloading the project, click on the gradle button in the top right of the intellij IDE. <br>
-Then hit the "reload all gradle projects" button. after that type in the terminal: <br?
+Then hit the "reload all gradle projects" button. after that type in the terminal: <br>
 ```
 ./gradlew clean build    
 ```
@@ -55,9 +55,15 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 ```
 | Argument       | Description                             | Required |
 |----------------|---------------------------------------|----------------|
-| `-g`           | The gene input file                   | Yes      |
-| `-pf`       | The pathways file containing the pathways           | Yes      |
-| `-pd`       | The pathways description file          | Yes      |
+| `-g`           | The gene input file.                   | Yes      |
+| `-pf`       | The pathways file containing the pathways.           | Yes      |
+| `-pd`       | The pathways description file.          | Yes      |
+| `-gid`      | The gene ID format used, such as "Entrez, Gene_symbol, Ensembl".  | Yes |
+| `-t`        | The cutoff value for the adjusted P-Value for a gene to be seen as a DEG. Default is 0.05. | No|
+| `-pn`       | The specific pathwayID you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
+| `-h`        | The lenght of your header, default value is 1 | No |
+| `--boxplot` | Gives a boxplot of the enrichment score | No |
+| `--scatterplot`| Gives a scatterplot of the enrichment score | No |
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
@@ -71,10 +77,3 @@ Notch signaling pathway (hsa04330)
  C*   | 2886 | 923  | 3809
  Sum  | 2904 | 18926 | 21830
 ```
-
- 
-
-### Future implementations<br>
-- Adding the math and statistics steps to our programme.<br>
-- Adding the visualisation steps to our programme<br>
-- Adding unit testing.<br>
