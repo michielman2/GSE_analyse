@@ -84,6 +84,8 @@ Observed DEGs: 15.0 <br>
 Average LogFoldChange: 0.05528164677713069 <br>
 
 Also the following graphs will be shows and you can choose wether to save them to png or not: <br>
+![table of pathway](https://github.com/michielman2/GSE_analyse/raw/main/images/pathway%20table.png)
+
 
 
 
