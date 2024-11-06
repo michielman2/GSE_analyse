@@ -18,20 +18,49 @@ import java.util.List;
 
 public class Boxplot {
 
-    private static DefaultBoxAndWhiskerCategoryDataset createDataset(List<GSEARecord> results) {
+    private static DefaultBoxAndWhiskerCategoryDataset createDataset(List<GSEARecord> results, String dataType) {
         DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
 
-        // Extract enrichment scores and filter out outliers
-        List<Double> enrichmentScores = new ArrayList<>();
-        for (GSEARecord pathway : results) {
-            enrichmentScores.add(pathway.enrichmentScore());
+        // Check the data type and process accordingly
+        if (dataType.equalsIgnoreCase("enrichmentscore")) {
+            // Extract enrichment scores and filter out outliers
+            List<Double> enrichmentScores = new ArrayList<>();
+            for (GSEARecord pathway : results) {
+                enrichmentScores.add(pathway.enrichmentScore());
+            }
+
+            // Filter out outliers
+            List<Double> filteredScores = filterOutliers(enrichmentScores);
+
+            // Add filtered enrichment scores under a single category label
+            dataset.add(filteredScores, "Enrichment Scores", "Pathways");
+
+        } else if (dataType.equalsIgnoreCase("pvalue")) {
+            // Extract p-values and filter out outliers
+            List<Double> pValues = new ArrayList<>();
+            for (GSEARecord pathway : results) {
+                pValues.add(pathway.pValue());
+            }
+
+            // Filter out outliers
+            List<Double> filteredScores = filterOutliers(pValues);
+
+            // Add filtered p-values under a single category label
+            dataset.add(filteredScores, "P-Values", "Pathways");
+
+        } else {
+            // Default: process adjusted p-values
+            List<Double> adjustedPValues = new ArrayList<>();
+            for (GSEARecord pathway : results) {
+                adjustedPValues.add(pathway.adjustedPValue());
+            }
+
+            // Filter out outliers
+            List<Double> filteredScores = filterOutliers(adjustedPValues);
+
+            // Add filtered adjusted p-values under a single category label
+            dataset.add(filteredScores, "Adjusted P-Values", "Pathways");
         }
-
-        // Filter out outliers
-        List<Double> filteredScores = filterOutliers(enrichmentScores);
-
-        // Add filtered enrichment scores under a single category label
-        dataset.add(filteredScores, "Enrichment Scores", "Pathways");
 
         return dataset;
     }
@@ -66,14 +95,29 @@ public class Boxplot {
         return filteredScores;
     }
 
-    // Method to create the boxplot chart
-    private static JFreeChart createChart(DefaultBoxAndWhiskerCategoryDataset dataset) {
+    // Method to create the boxplot chart with dynamic title and y-axis label based on dataType
+    private static JFreeChart createChart(DefaultBoxAndWhiskerCategoryDataset dataset, String dataType) {
+        String chartTitle = "";
+        String yAxisLabel = "";
+
+        // Adjust title and y-axis label based on the data type
+        if (dataType.equalsIgnoreCase("enrichmentscore")) {
+            chartTitle = "Pathway Enrichment Scores";
+            yAxisLabel = "Enrichment Score";
+        } else if (dataType.equalsIgnoreCase("pvalue")) {
+            chartTitle = "Pathway P-Values";
+            yAxisLabel = "P-Value";
+        } else {
+            chartTitle = "Pathway Adjusted P-Values";
+            yAxisLabel = "Adjusted P-Value";
+        }
+
         JFreeChart chart = ChartFactory.createBoxAndWhiskerChart(
-                "Pathway Enrichment Scores",   // chart title
-                "Pathways",                    // domain axis label
-                "Enrichment Score",            // range axis label
-                dataset,                       // dataset
-                true                           // show legend
+                chartTitle,   // dynamic chart title
+                "Pathways",   // domain axis label
+                yAxisLabel,   // dynamic y-axis label
+                dataset,      // dataset
+                true          // show legend
         );
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
@@ -90,9 +134,9 @@ public class Boxplot {
     }
 
     // Method to display the chart in a JFrame, with an option to save as a PNG
-    static void showChart(List<GSEARecord> results, boolean savePlot) {
-        DefaultBoxAndWhiskerCategoryDataset dataset = createDataset(results);
-        JFreeChart chart = createChart(dataset);
+    static void showChart(List<GSEARecord> results, boolean savePlot, String dataType) {
+        DefaultBoxAndWhiskerCategoryDataset dataset = createDataset(results, dataType);
+        JFreeChart chart = createChart(dataset, dataType);
 
         // If savePlot is true, save the chart as a PNG file
         if (savePlot) {
