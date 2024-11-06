@@ -29,7 +29,7 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"-h", "--headerlength"}, description = "The amount of lines that the header takes up in the given files.", defaultValue = "0")
     private int headerLength;
 
-    @Option(names = {"-pn", "--pathwayname"}, description = "If used you will only get the enrichment table and the GSEA results for the given pathway. When not used you will get them for all pathways. If you use: no_pathways, it will show no enrichment tables or GSEA results.")
+    @Option(names = {"-pn", "--pathwayname"}, description = "If used you will only get the enrichment table and the GSEA results for the given pathway. When not used you will get them for all pathways. If you use: no_pathways, it will show no enrichment tables or GSEA results.", defaultValue = "all_pathways")
     private String pathwayName;
 
     @Option(names = {"--boxplot"}, description = "Will generate a boxplot of the enrichment scores for all pathways when used.")
