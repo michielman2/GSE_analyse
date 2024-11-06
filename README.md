@@ -52,14 +52,14 @@ Hsa pathway csv/tsv, this file contain the description of the pathways <br>
 ### How to run 
 Here is an example of the most basic command line argument when running the program: <br>
 ```
-java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_smokers.tsv -pf example_data/pathways.csv -pd example_data/hsa_pathways.csv -gid Entrezid 
+java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_smokers.tsv -pf example_data/pathways.csv -pd example_data/hsa_pathways.csv -gid gene_symbol -h 1   --boxplot enrichmentscore
 ```
 | Argument       | Description                             | Required |
 |----------------|---------------------------------------|----------------|
 | `-g`           | The gene input file.                   | Yes      |
 | `-pf`       | The pathways file containing the pathways.           | Yes      |
 | `-pd`       | The pathways description file.          | Yes      |
-| `-gid`      | The gene ID format used, such as "Entrez, Gene_symbol, Ensembl".  | Yes |
+| `-gid`      | The gene ID format, should be 'gene_symbol'.  | Yes |
 | `-t`        | The cutoff value for the adjusted P-Value for a gene to be seen as a DEG. Default is 0.05. | No|
 | `-pn`       | The specific pathwayID you want to show. Is left empty, all enrichment table and gsea results will be shown. If filled in  `-no_pathways`, it will be left empty. | No| 
 | `-h`        | The lenght of your header, default value is 1 | No |
