@@ -48,12 +48,10 @@ class GSEATest {
         }
 
 
-
         // Test the result against the method's output
         pValue = gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes);
         assertEquals(cumulativePValue, pValue, 0.0001); // Allow a small delta for precision
     }
-
 
 
     @Test
@@ -112,5 +110,43 @@ class GSEATest {
         pValue = 1.5;
         adjustedPValue = gsea.adjustPValue(pValue, numPathways);
         assertEquals(1.0, adjustedPValue); // p-value should be capped at 1.0
+    }
+
+    @Test
+    void boundaryTestCalculatePValue() {
+        // Boundary Tests for edge cases
+
+        // Case 1: No DEGs in the pathway (degsInPathway = 0)
+        long degsInPathway = 0;
+        long totalDEGs = 200;
+        long genesInPathway = 50;
+        long totalGenes = 1000;
+
+        double pValue = gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes);
+        System.out.println("Boundary Test (No DEGs in Pathway) P-value: " + pValue);
+        assertEquals(1.0, pValue, 1e-10, "Expected p-value to be approximately 1.0 when no DEGs are in the pathway");
+
+        // Case 2: No genes in the pathway (genesInPathway = 0)
+        degsInPathway = 5;
+        genesInPathway = 0;
+
+        pValue = gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes);
+        System.out.println("Boundary Test (No Genes in Pathway) P-value: " + pValue);
+        assertEquals(1.0, pValue, 1e-10, "Expected p-value to be approximately 1.0 when there are no genes in the pathway");
+
+        // Case 3: Total DEGs or total genes is zero (totalDEGs = 0)
+        totalDEGs = 0;
+
+        pValue = gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes);
+        System.out.println("Boundary Test (No Total DEGs) P-value: " + pValue);
+        assertEquals(1.0, pValue, 1e-10, "Expected p-value to be approximately 1.0 when there are no total DEGs in the dataset");
+
+        // Case 4: Both totalDEGs and genesInPathway are zero
+        totalDEGs = 0;
+        genesInPathway = 0;
+
+        pValue = gsea.calculatePValue(degsInPathway, totalDEGs, genesInPathway, totalGenes);
+        System.out.println("Boundary Test (No Total DEGs and Genes in Pathway) P-value: " + pValue);
+        assertEquals(1.0, pValue, 1e-10, "Expected p-value to be approximately 1.0 when there are no total DEGs and no genes in the pathway");
     }
 }
