@@ -48,12 +48,6 @@ public class Main {
             List<GeneRecord> geneRecords = csvFileParser.readDEGs(degsFilePath);
             Map<String, PathwayRecord> pathwayRecords = csvFileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath);
 
-            // Write the gene records to CSV
-            writeGeneRecordsToCSV(geneRecords, "gene_records_output.csv");
-
-            // Write the pathway records to CSV
-            writePathwayRecordsToCSV(pathwayRecords, "pathway_records_output.csv");
-
             // Perform GSEA analysis
 //            GSEAWithHypergeometric gsea = new GSEAWithHypergeometric();
 //            List<GSEAWithHypergeometric.GSEAResult> results = gsea.performGSEA(geneRecords, pathwayRecords, 0.05);
