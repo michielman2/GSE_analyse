@@ -28,7 +28,6 @@ public class Main {
         int headerLength = commandlineProcessor.getHeaderLength();
         String pathwayName = commandlineProcessor.getPathwayName();
         boolean boxPlot = commandlineProcessor.getBoxPlot();
-        boolean barChart = commandlineProcessor.getBarChart();
         boolean scatterPlot = commandlineProcessor.getScatterPlot();
         double treshold = commandlineProcessor.getTreshold();
 
@@ -81,7 +80,6 @@ public class Main {
 //            }
             if (boxPlot){Boxplot.showChart(gseaResults);}
             if (scatterPlot){ScatterPlot.showChart(gseaResults);}
-            if (barChart){}
 
         } catch (IOException e) {
             System.err.println("Error reading CSV files: " + e.getMessage());

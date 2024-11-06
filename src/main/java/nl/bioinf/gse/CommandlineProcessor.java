@@ -35,9 +35,6 @@ public class CommandlineProcessor implements Callable<Integer> {
     @Option(names = {"--boxplot"}, description = "Generate boxplot if set to true.")
     private boolean boxplot = false;
 
-    @Option(names = {"--barchart"}, description = "Generate barchart if set to true.")
-    private boolean barchart = false;
-
     @Option(names = {"--scatterplot"}, description = "Generate scatterplot if set to true.")
     private boolean scatterplot = false;
 
@@ -56,7 +53,6 @@ public class CommandlineProcessor implements Callable<Integer> {
         System.out.println("Gene ID format: " + geneId);
         System.out.println("Header length: " + headerLength);
         System.out.println("boxplot: " + boxplot);
-        System.out.println("barchart: " + barchart);
         System.out.println("scatterplot: " + scatterplot);
 
         if (pathwayName != null) {
@@ -108,9 +104,6 @@ public class CommandlineProcessor implements Callable<Integer> {
 
     public boolean getBoxPlot() {
         return boxplot;
-    }
-    public boolean getBarChart() {
-        return barchart;
     }
     public boolean getScatterPlot() {
         return scatterplot;
