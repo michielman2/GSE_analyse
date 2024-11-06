@@ -10,7 +10,7 @@ The tool is capable of given a table for a pathway based on the amount of total 
 
 ### Requirements <br>
 **Java 17** (Make sure you have JDK 17 installed)<br>
-**Apache Commons** CSV library (for reading and writing CSV files)<br>
+**Apache Commons** CSV/TSV library (for reading and writing CSV files)<br>
 **Gradle** (for building and running the project)<br>
 
 
@@ -48,6 +48,8 @@ Pathways.csv/tsv, this file should contain pathways with the following collumns,
 -Ensembl ID<br>
 
 Hsa pathway csv/tsv, this file contain the description of the pathways <br>
+-Pathway ID <br>
+-Pathway description <br>
 
 ### How to run 
 Here is an example of the most basic command line argument when running the program: <br>
