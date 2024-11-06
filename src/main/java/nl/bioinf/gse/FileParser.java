@@ -53,7 +53,7 @@ public class FileParser {
         return geneRecords;
     }
 
-    public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath, int headerLength) throws IOException {
+    public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath, int headerLength, String geneType) throws IOException {
         Map<String, PathwayRecord> pathwayMap = new HashMap<>();
         Map<String, String> pathwayDescriptions = new HashMap<>();
 
@@ -92,27 +92,32 @@ public class FileParser {
                 }
 
                 String pathwayID = record.get(0);
-                String entrezGeneID = record.get(1);
-                String geneSymbol = record.get(2);
-                String ensemblGeneID = record.get(3);
+                String entrezGeneID = record.get(1);  // Column 1: Entrez
+                String geneSymbol = record.get(2);   // Column 2: Gene Symbol
+                String ensemblGeneID = record.get(3); // Column 3: Ensembl
 
                 String description = pathwayDescriptions.getOrDefault(pathwayID, "Unknown Pathway");
 
+                // Determine which geneID to use based on the geneType
+                List<String> geneIDs = new ArrayList<>();
+                if ("Entrez".equalsIgnoreCase(geneType)) {
+                    geneIDs.add(entrezGeneID);
+                } else if ("Gene_symbol".equalsIgnoreCase(geneType)) {
+                    geneIDs.add(geneSymbol);
+                } else if ("Ensembl".equalsIgnoreCase(geneType)) {
+                    geneIDs.add(ensemblGeneID);
+                } else {
+                    throw new IllegalArgumentException("Unsupported gene type: " + geneType);
+                }
+
+                // Add the gene IDs to the pathway record
                 PathwayRecord existingPathway = pathwayMap.get(pathwayID);
                 if (existingPathway == null) {
-                    List<String> entrezGeneIDs = new ArrayList<>();
-                    List<String> ensemblGeneIDs = new ArrayList<>();
-                    List<String> geneSymbols = new ArrayList<>();
-
-                    entrezGeneIDs.add(entrezGeneID);
-                    ensemblGeneIDs.add(ensemblGeneID);
-                    geneSymbols.add(geneSymbol);
-
-                    pathwayMap.put(pathwayID, new PathwayRecord(pathwayID, description, entrezGeneIDs, ensemblGeneIDs, geneSymbols));
+                    // Create a new PathwayRecord if it doesn't exist
+                    pathwayMap.put(pathwayID, new PathwayRecord(pathwayID, description, geneIDs));
                 } else {
-                    existingPathway.entrezGeneIDs().add(entrezGeneID);
-                    existingPathway.ensemblGeneIDs().add(ensemblGeneID);
-                    existingPathway.geneSymbols().add(geneSymbol);
+                    // Otherwise, add the gene ID to the existing record
+                    existingPathway.geneIDs().addAll(geneIDs);
                 }
             }
         }
