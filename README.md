@@ -10,7 +10,7 @@ The tool is capable of given a table for a pathway based on the amount of total 
 
 ### Requirements <br>
 **Java 17** (Make sure you have JDK 17 installed)<br>
-**Apache Commons** CSV library (for reading and writing CSV files)<br>
+**Apache Commons** CSV/TSV library (for reading and writing CSV files)<br>
 **Gradle** (for building and running the project)<br>
 
 
@@ -48,6 +48,8 @@ Pathways.csv/tsv, this file should contain pathways with the following collumns,
 -Ensembl ID<br>
 
 Hsa pathway csv/tsv, this file contain the description of the pathways <br>
+-Pathway ID <br>
+-Pathway description <br>
 
 ### How to run 
 Here is an example of the most basic command line argument when running the program: <br>
@@ -68,13 +70,21 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
-For example, when giving the hsa04330 pathway as input, the output should be like this:<br>
+Given these commandline arguments(pathway hsa04330, boxplot of enrichmentscore and scatterplot of logfoldchange: <br>
+```java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g .\example_data\degs_smokers.tsv -pf .\example_data\pathways.csv -pd .\example_data\hsa_pathways.csv -gid gene_symbol  --boxplot enrichmentscore  -png --scatterplot avglogfoldchange -pn``` <br>
+The output should look like this: <br>
 
-```
-Notch signaling pathway (hsa04330)
- | D    | D*   | Sum
- --------------------
- C    | 18   | 44   | 62
- C*   | 2886 | 923  | 3809
- Sum  | 2904 | 18926 | 21830
-```
+Pathway: Notch signaling pathway <br>
+KEGG PathwayID: hsa04330 <br>
+P-Value: 0.018301675473708756 <br>
+Adjusted P-Value: 1.0 <br>
+Enrichment Score: 2.2078377933746425 <br>
+Expected DEGs: 8.545788062649923 <br>
+Observed DEGs: 15.0 <br>
+Average LogFoldChange: 0.05528164677713069 <br>
+
+Also the following graphs will be shows and you can choose wether to save them to png or not: <br>
+
+
+
+
