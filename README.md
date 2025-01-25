@@ -71,7 +71,7 @@ java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g example_data/degs_sm
 
 ### Example<br>
 When running the main the application will procces the deg and pathways csv files. When given a pathway it will return a table contain all the information about that pathway.<br>
-Given these commandline arguments(pathway hsa04330, boxplot of enrichmentscore and scatterplot of logfoldchange: <br>
+Given these commandline arguments(pathway hsa04330, boxplot of enrichmentscore and scatterplot of logfoldchange): <br>
 ```java -jar .\build\libs\GSEA_project-1.0-SNAPSHOT-all.jar -g .\example_data\degs_smokers.tsv -pf .\example_data\pathways.csv -pd .\example_data\hsa_pathways.csv -gid gene_symbol  --boxplot enrichmentscore  -png --scatterplot avglogfoldchange -pn``` <br>
 The output should look like this: <br>
 
