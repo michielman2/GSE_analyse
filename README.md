@@ -92,6 +92,17 @@ This show the boxplot that was selected showing the enrichmentscore of all the p
 ![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png) <br>
 This shows the scatterplot of the 20 pathways with the highest logfolchange<br>
 
+### Test Suite Documentatie <br>
+Er is J-Unit testing gedaan op verschillende methodes. Hieronder staat beschreven waar die inhouden. <br>
+
+- **Aantal tests**: 18 tests <Br>
+- **Testklassen**: De tests bevinden zich in 2 apparte classes <br>
+- **Wat is er getest**: <br>
+  - 
+  - 
+- **Resultaten**: Alle tests zijn succesvol uitgevoerd. <br>
+
+
 ### Support <br>
 When using our programme, if you encounter any bugs, please contact us via mail (see Authors and Acknowledgments) <br>
 ### Authors and Acknowledgments <br>
