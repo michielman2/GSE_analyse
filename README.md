@@ -92,15 +92,28 @@ This show the boxplot that was selected showing the enrichmentscore of all the p
 ![scatterplot logfoldchange](https://github.com/michielman2/GSE_analyse/blob/main/images/logfoldchange_pathways.png) <br>
 This shows the scatterplot of the 20 pathways with the highest logfolchange<br>
 
-### Test Suite Documentatie <br>
-Er is J-Unit testing gedaan op verschillende methodes. Hieronder staat beschreven waar die inhouden. <br>
+### Test Suite Documentation <br>
+JUnit tests has been used different methods, these are shown below. <br>
 
-- **Aantal tests**: 18 tests <Br>
-- **Testklassen**: De tests bevinden zich in 2 apparte classes <br>
-- **Wat is er getest**: <br>
-  - 
-  - 
-- **Resultaten**: Alle tests zijn succesvol uitgevoerd. <br>
+- **Number of tests**: 16 tests <Br>
+- **Test classes**: The tests are in 2 different files "FileParserTest" and "GSEAtest". <br>
+- **what has been tested**: <br>
+**FileParserTest**: <br>
+  - testReadDEGs: This test checks if the FileParser correctly reads the DEGs. <br>
+  - testReadDEGsWithNAValues:  This test checks how the FileParser handles the case where some gene values are marked as "NA". <br>
+  - testReadPathwaysWithEntrezGeneType: This test checks if the parser can correctly handle and read pathways with Entrez Gene IDs. <br>
+  - testReadPathwaysWithGeneSymbolGeneType: This test checks if the parser works when using Gene Symbols to match pathways. <br>
+  - testReadPathwaysWithEnsemblGeneType: This test checks if the parser works when using Ensembl Gene IDs to match pathways. <Br>
+  - testReadPathwaysWithInvalidGeneType:  This test ensures that the parser throws an error if an invalid gene type (like "InvalidType") is provided. <br>
+**GSEAtest**: <br>
+  - testCalculateEnrichmentScore: This test checks if the method that calculates enrichment scores works properly. <Br>
+  - testCalculatePValue: This test checks if the method for calculating p-values works correctly. It runs with example values and verifies that the p-value is correct. <br>
+  - testHyperGeometricTest: This test checks if the hypergeometric test for probability calculation works correctly. It makes sure the returned value is between 0 and 1. <br>
+  - testCalculateBinomialCoefficient: This test checks if the method for calculating the binomial coefficient works. <Br>
+  - testCalculateExpectedDEGs: This test checks if the method for calculating expected DEGs works properly. <br>
+  - testAdjustPValue: This test checks if the method that adjusts p-values works correctly. It tests with p-values and ensures that they are correctly capped at 1 <br>
+  - Boundry cases: These tests check special cases where there are no DEGs in a pathway, no genes in a pathway, or no total DEGs. <br>
+- **Results**: All tests passed. <br>
 
 
 ### Support <br>
