@@ -16,8 +16,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * class for generating and displaying boxplots.
+ */
 public class Boxplot {
 
+    /**
+     * Creates a dataset for the boxplot based on the specified data type.
+     *
+     * @param results  A list of GSEARecord objects containing pathway enrichment results.
+     * @param dataType The type of data to include in the boxplot (e.g., "enrichmentscore", "pvalue", "adjustedpvalue").
+     * @return A DefaultBoxAndWhiskerCategoryDataset containing the processed data.
+     */
     private static DefaultBoxAndWhiskerCategoryDataset createDataset(List<GSEARecord> results, String dataType) {
         DefaultBoxAndWhiskerCategoryDataset dataset = new DefaultBoxAndWhiskerCategoryDataset();
 
@@ -65,6 +75,12 @@ public class Boxplot {
         return dataset;
     }
 
+    /**
+     * Filters outliers from a list of numerical values using the interquartile range (IQR) method.
+     *
+     * @param scores A list of numerical values to filter.
+     * @return A list of values with outliers removed.
+     */
     private static List<Double> filterOutliers(List<Double> scores) {
         // If there are fewer than 4 scores, return them as they are (not enough data to calculate outliers)
         if (scores.size() < 4) {
@@ -95,7 +111,13 @@ public class Boxplot {
         return filteredScores;
     }
 
-    // Method to create the boxplot chart with dynamic title and y-axis label based on dataType
+    /**
+     * Creates a boxplot chart with a dynamic title and y-axis label based on the specified data type.
+     *
+     * @param dataset  The dataset to use for the chart.
+     * @param dataType The type of data represented in the chart ("enrichmentscore", "pvalue", "adjustedpvalue").
+     * @return A JFreeChart object representing the boxplot.
+     */
     private static JFreeChart createChart(DefaultBoxAndWhiskerCategoryDataset dataset, String dataType) {
         String chartTitle = "";
         String yAxisLabel = "";
@@ -133,7 +155,13 @@ public class Boxplot {
         return chart;
     }
 
-    // Method to display the chart in a JFrame, with an option to save as a PNG
+    /**
+     * Displays the boxplot chart in a JFrame and optionally saves it as a PNG file.
+     *
+     * @param results  A list of GSEARecord objects containing pathway enrichment results.
+     * @param savePlot A boolean indicating whether to save the chart as a PNG file.
+     * @param dataType The type of data to include in the boxplot ("enrichmentscore", "pvalue", "adjustedpvalue").
+     */
     static void showChart(List<GSEARecord> results, boolean savePlot, String dataType) {
         DefaultBoxAndWhiskerCategoryDataset dataset = createDataset(results, dataType);
         JFreeChart chart = createChart(dataset, dataType);
@@ -159,7 +187,11 @@ public class Boxplot {
         frame.setVisible(true);
     }
 
-    // Method to save the chart as a PNG file
+    /**
+     * Saves the boxplot chart as a PNG file.
+     *
+     * @param chart The JFreeChart object representing the boxplot.
+     */
     private static void saveChartAsPNG(JFreeChart chart) {
         try {
             // Specify the file where you want to save the image
