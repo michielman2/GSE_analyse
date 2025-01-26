@@ -1,25 +1,38 @@
 package nl.bioinf.gse;
 
 import picocli.CommandLine;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The main entry point for the Gene Set Enrichment Analysis application.
+ * This class parses command-line arguments, reads input files, performs GSEA analysis,
+ * and generates output including enrichment tables, boxplots, and scatter plots.
+ */
 public class Main {
 
     /**
-     * Main method to parse commandline arguments and execute the GSEA pipeline.
-     * @param args Commandline arguments to be parsed by the CommandlineProcessor.
+     * The main method to run the GSEA application.
+     *
+     * @param args Command-line arguments specifying input files, options, and parameters.
      */
     public static void main(String[] args) {
-        // Create an instance of CommandlineProcessor
+        // Create an instance of CommandlineProcessor to handle command-line arguments
         CommandlineProcessor commandlineProcessor = new CommandlineProcessor();
 
-        // Parse commandline arguments and retrieve the exit code
+        // Parse command-line arguments
         int exitCode = new CommandLine(commandlineProcessor).execute(args);
 
-        // Retrieve commandline arguments after parsing
+        // Validate the exit code to ensure arguments are parsed successfully
+        if (exitCode != 0) {
+            System.err.println("Failed to parse command line arguments.");
+            System.exit(exitCode);
+        }
+
+        // Retrieve parsed command-line options
         File geneFile = commandlineProcessor.getGeneFile();
         File pathwayFile = commandlineProcessor.getPathwayFile();
         File pathwayDescFile = commandlineProcessor.getPathwayDescFile();
@@ -31,49 +44,45 @@ public class Main {
         double treshold = commandlineProcessor.getTreshold();
         boolean savePlot = commandlineProcessor.getSavePlot();
 
-        // Validate exit code
-        if (exitCode != 0) {
-            System.err.println("Failed to parse command line arguments.");
-            System.exit(exitCode);
-        }
-
-        // Convert gene, pathway, and description files to absolute paths so all location can use it
+        // Validate input files and retrieve their paths
         String degsFilePath = geneFile.getAbsolutePath();
         String pathwaysFilePath = pathwayFile.getAbsolutePath();
         String hsaPathwaysFilePath = pathwayDescFile.getAbsolutePath();
 
-
+        // Initialize the FileParser to process input files
         FileParser fileParser = new FileParser();
 
         try {
-            // Read DEGs from the specified file
+            // Read differentially expressed genes (DEGs) and pathway data
             List<GeneRecord> geneRecords = fileParser.readDEGs(degsFilePath, headerLength);
-            // Read pathways and descriptions from the pathway files
             Map<String, PathwayRecord> pathwayRecords = fileParser.readPathways(pathwaysFilePath, hsaPathwaysFilePath, headerLength, geneId);
 
-            // Perform GSEA analysis using parsed data
+            // Perform Gene Set Enrichment Analysis (GSEA)
             GSEAFactory gseaFactory = new GSEAFactory();
             List<GSEARecord> gseaResults = gseaFactory.performGSEA(
                     TableBuilder.totalDEGS(geneRecords, treshold),
                     TableBuilder.totalGenes(geneRecords, treshold),
-                    pathwayRecords, geneRecords, treshold
+                    pathwayRecords,
+                    geneRecords,
+                    treshold
             );
 
-            // Display enrichment tables and GSEA results for specified pathways
+            // Generate terminal output for enrichment tables and GSEA results
             TerminalOutput.printEnrichmentTables(gseaResults, pathwayRecords, pathwayName, geneRecords, treshold);
             TerminalOutput.printGSEAResults(gseaResults, pathwayRecords, pathwayName);
 
-            // Generate boxplot if selected
-            if (boxPlot != "no_boxplot") {
+            // Generate boxplot if specified
+            if (!"no_boxplot".equals(boxPlot)) {
                 Boxplot.showChart(gseaResults, savePlot, boxPlot);
             }
-            // Generate scatterplot if selected
-            if (scatterPlot != "no_scatterplot") {
+
+            // Generate scatter plot if specified
+            if (!"no_scatterplot".equals(scatterPlot)) {
                 ScatterPlot.showChart(gseaResults, savePlot, scatterPlot);
             }
 
         } catch (IOException e) {
-            // Print potential error message
+            // Handle exceptions related to file reading
             System.err.println("Error reading CSV files: " + e.getMessage());
         }
     }
