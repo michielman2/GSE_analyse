@@ -12,9 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for parsing files containing gene and pathway data.
+ */
 public class FileParser {
 
-    // Method to read Differentially Expressed Genes (DEGs) from a file
+    /**
+     * Reads DEGs from a file.
+     *
+     * @param filePath    The path to the file containing DEG data.
+     * @param headerLength The number of header lines to skip in the file.
+     * @return A list of GeneRecord objects containing the parsed data.
+     * @throws IOException If an error occurs while reading the file.
+     */
     public List<GeneRecord> readDEGs(String filePath, int headerLength) throws IOException {
         List<GeneRecord> geneRecords = new ArrayList<>();
 
@@ -47,7 +57,6 @@ public class FileParser {
                 String logFoldChangeStr = record.get(1);
                 String adjustedPValueStr = record.get(2);
 
-                // If either of these values is "NA", skip this record
                 if ("NA".equals(logFoldChangeStr) || "NA".equals(adjustedPValueStr)) {
                     continue;
                 }
@@ -62,7 +71,16 @@ public class FileParser {
         return geneRecords;
     }
 
-    // Method to read Pathways from the file
+    /**
+     * Reads pathway data from files and maps genes to pathways.
+     *
+     * @param pathwaysFilePath     The path to the file containing pathway-gene mappings.
+     * @param hsaPathwaysFilePath  The path to the file containing pathway descriptions.
+     * @param headerLength         The number of header lines to skip in the files.
+     * @param geneType             The type of gene identifier to use ("Entrez", "Gene_symbol", or "Ensembl").
+     * @return A map of pathway IDs to PathwayRecord objects.
+     * @throws IOException If an error occurs while reading the files.
+     */
     public Map<String, PathwayRecord> readPathways(String pathwaysFilePath, String hsaPathwaysFilePath, int headerLength, String geneType) throws IOException {
         Map<String, PathwayRecord> pathwayMap = new HashMap<>();
         Map<String, String> pathwayDescriptions = new HashMap<>();
