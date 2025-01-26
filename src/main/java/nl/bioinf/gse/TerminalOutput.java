@@ -3,9 +3,23 @@ package nl.bioinf.gse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class for printing enrichment tables and GSEA results to the terminal.
+ */
 public class TerminalOutput {
+
+    /**
+     * Prints GSEA results to the terminal.
+     *
+     * @param gseaResults   A list of GSEARecord objects containing enrichment analysis results.
+     * @param pathwayRecords A map of pathway IDs to PathwayRecord objects.
+     * @param pathwayName    The name or ID of the pathway to print results for. Special values:
+     *                       "no_pathways" to print nothing, "all_pathways" to print all pathways.
+     * @throws IllegalArgumentException If the specified pathwayName does not exist in the pathwayRecords map.
+     */
     public static void printGSEAResults(List<GSEARecord> gseaResults, Map<String, PathwayRecord> pathwayRecords, String pathwayName){
         if (pathwayName.equals("no_pathways")) {
+            // Do nothing
         } else if (pathwayName.equals("all_pathways")) {
             for (GSEARecord result : gseaResults) {
                 System.out.println("Pathway: " + result.description());
@@ -43,8 +57,20 @@ public class TerminalOutput {
         }
     }
 
+    /**
+     * Prints enrichment tables to the terminal.
+     *
+     * @param gseaResults   A list of GSEARecord objects containing enrichment analysis results.
+     * @param pathwayRecords A map of pathway IDs to PathwayRecord objects.
+     * @param pathwayName    The name or ID of the pathway to print tables for. Special values:
+     *                       "no_pathways" to print nothing, "all_pathways" to print all pathways.
+     * @param geneRecords    A list of GeneRecord objects representing genes in the analysis.
+     * @param treshold       A double value that determines if a gene is a DEG.
+     * @throws IllegalArgumentException If the specified pathwayName does not exist in the pathwayRecords map.
+     */
     public static void printEnrichmentTables(List<GSEARecord> gseaResults,Map<String, PathwayRecord> pathwayRecords, String pathwayName, List<GeneRecord> geneRecords, double treshold){
         if (pathwayName.equals("no_pathways")) {
+            // Do nothing
         } else if (pathwayName.equals("all_pathways")) {
             for (GSEARecord result : gseaResults) {
                 String table = TableBuilder.tableBuilder(geneRecords, pathwayRecords, result.pathwayID(), treshold);
