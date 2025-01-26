@@ -59,7 +59,7 @@ public class CommandlineProcessor implements Callable<Integer> {
      * The number of lines that the header takes up in the given files.
      * Default value is 0.
      */
-    @Option(names = {"-h", "--headerlength"}, description = "The amount of lines that the header takes up in the given files.", defaultValue = "0")
+    @Option(names = {"-hl", "--headerlength"}, description = "The amount of lines that the header takes up in the given files.", defaultValue = "0")
     private int headerLength;
 
     /**
