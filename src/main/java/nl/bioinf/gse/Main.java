@@ -67,8 +67,7 @@ public class Main {
                     treshold
             );
 
-            // Generate terminal output for enrichment tables and GSEA results
-            TerminalOutput.printEnrichmentTables(gseaResults, pathwayRecords, pathwayName, geneRecords, treshold);
+            // Generate terminal output for GSEA results
             TerminalOutput.printGSEAResults(gseaResults, pathwayRecords, pathwayName);
 
             // Generate boxplot if specified
